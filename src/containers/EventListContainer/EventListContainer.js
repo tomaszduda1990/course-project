@@ -1,5 +1,6 @@
 import React from 'react'
-import Event from '../../components/Event/Event'
+import Event from '../../components/Event/EventListItem'
+import EventDetails from '../../components/Event/EventDetails'
 
 const events = [
     {
@@ -25,12 +26,16 @@ const events = [
 class EventListContainer extends React.Component {
     render(){
         return (
-            <ul>
-                {events.map(event => (
-                    <li key={event.id}>
-                        <Event {...event} />
-                    </li>))}
-            </ul>
+            <div>
+                <ul>
+                    {events.map(event => (
+                        <li key={event.id}>
+                            <Event {...event} />
+                        </li>))}
+                </ul>
+                <EventDetails {...events[0]} />
+            </div>
+
         )
     }
 }
