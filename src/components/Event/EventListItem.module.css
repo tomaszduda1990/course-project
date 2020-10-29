@@ -2,6 +2,10 @@
     font-size: 15px;
 }
 
+li {
+    margin: 0 10px;
+}
+
 .ImgContainer {
     width: 200px;
     height: 250px;

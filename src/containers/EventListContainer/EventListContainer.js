@@ -14,7 +14,7 @@ const events = [
         date: "20.10.2020",
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis culpa cupiditate dignissimos dolor, doloribus eius enim illum ipsum iusto laboriosam libero maxime, nulla porro quasi quia suscipit tempore voluptas, voluptatibus?",
         price: 29.99,
-            imgUrl: goatImg
+        imgUrl: goatImg
     },
     {
         id: 51231123,
@@ -82,15 +82,34 @@ const events = [
 ];
 
 class EventListContainer extends React.Component {
-    render(){
-        return (
-            <div>
-                <ul className={classes.List}>
-                    {events.map(event => <Event key={event.id + Math.random()} {...event} />)}
-                </ul>
-                <EventDetails {...events[0]} />
-            </div>
+    state = {
+        listPosition: 0
+    }
 
+    nextItemHandler = () => {
+        console.log(events.length)
+        if(this.state.listPosition+ 4 > 0){
+            this.setState({listPosition: this.state.listPosition - 1});
+        }
+
+    }
+    prevItemHandler = () => {
+        if(this.state.listPosition) {
+            this.setState({listPosition: this.state.listPosition + 1});
+        }
+    }
+
+    render() {
+        return (
+            <>
+                <button onClick={this.prevItemHandler} disabled={this.state.listPosition === 0}>&lt;</button>
+                <div className={classes.ListContainer}>
+                    <ul className={classes.List} style={{transform: `translateX(${this.state.listPosition * 220}px)`}}>
+                        {events.map(event => <Event key={event.id + Math.random()} {...event} />)}
+                    </ul>
+                </div>
+                <button onClick={this.nextItemHandler}>&gt;</button>
+            </>
         )
     }
 }
