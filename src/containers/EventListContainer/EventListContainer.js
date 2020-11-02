@@ -1,5 +1,6 @@
 import React from 'react'
 import Event from '../../components/Event/EventListItem'
+import NavigationPanel from '../../components/Navigation/NavigationPanel'
 import EventDetails from '../../components/Event/EventDetails'
 import classes from './EventListContainer.module.css'
 import peopleImg from '../../assets/people.jpg'
@@ -101,15 +102,14 @@ class EventListContainer extends React.Component {
 
     render() {
         return (
-            <>
-                <button onClick={this.prevItemHandler} disabled={this.state.listPosition === 0}>&lt;</button>
+            <div className={classes.Component}>
                 <div className={classes.ListContainer}>
                     <ul className={classes.List} style={{transform: `translateX(${this.state.listPosition * 220}px)`}}>
                         {events.map(event => <Event key={event.id + Math.random()} {...event} />)}
                     </ul>
                 </div>
-                <button onClick={this.nextItemHandler}>&gt;</button>
-            </>
+                <NavigationPanel onNextClick={this.nextItemHandler} onPrevClick={this.prevItemHandler}/>
+            </div>
         )
     }
 }
