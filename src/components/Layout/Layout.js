@@ -2,7 +2,6 @@ import React from 'react'
 import classes from './Layout.module.css'
 
 const layout = (props) => {
-    console.log(classes)
     return (
         <>
             <div>Toolbar, Sidedrawer, Backdrop</div>
