@@ -2,7 +2,7 @@
     font-size: 15px;
 }
 
-li {
+.EventCard {
     margin: 0 10px;
 }
 
@@ -88,4 +88,22 @@ h2:hover a{
 
 h2:hover::after {
     transform: translateX(-50%) scaleX(0.9);
+}
+
+@media screen and (max-width: 450px) {
+    .ImgContainer {
+        width: 70vw;
+    }
+
+    .ImgContainer .EvtDescContainer {
+        background-color: #000;
+        opacity: 0.8;
+        color: #fff;
+        transform: translateY(0%);
+    }
+
+    .EventCard {
+        margin: 20px auto;
+    }
+    
 }

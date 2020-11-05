@@ -29,3 +29,9 @@
         transform: translateY(-52%) scaleX(1.02);
     }
 }
+
+@media screen and (max-width: 450px) {
+    .NavContainer {
+        display: none;
+    }
+}
