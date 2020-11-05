@@ -24,3 +24,12 @@ button {
     border: none;
 }
 
+@media screen and (max-width: 450px) {
+    .ListContainer {
+        width: 100%;
+    }
+
+    .List {
+        flex-wrap: wrap;
+    }
+}

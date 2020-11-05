@@ -2,6 +2,7 @@ import React from 'react'
 import Event from '../../components/Event/EventListItem'
 import NavigationPanel from '../../components/Navigation/NavigationPanel'
 import EventDetails from '../../components/Event/EventDetails'
+import {getElementWidth} from '../utils/utils';
 import classes from './EventListContainer.module.css'
 import peopleImg from '../../assets/people.jpg'
 import goatImg from '../../assets/goat.jpg'
@@ -84,11 +85,11 @@ const events = [
 
 class EventListContainer extends React.Component {
     state = {
-        listPosition: 0
+        listPosition: 0,
+        listItemWidth: 0
     }
 
     nextItemHandler = () => {
-        console.log(events.length)
         if(this.state.listPosition+ 4 > 0){
             this.setState({listPosition: this.state.listPosition - 1});
         }
@@ -100,15 +101,25 @@ class EventListContainer extends React.Component {
         }
     }
 
+    updateListItemWidth = (selector) => {
+        this.setState({listItemSelector: selector})
+    }
+
+    componentDidMount(){
+        const element = document.querySelector(`.${classes.List} li`);
+        const fullElementWidth = getElementWidth(element);
+        this.setState({listItemWidth: fullElementWidth});
+    }
+
     render() {
         return (
             <div className={classes.Component}>
                 <div className={classes.ListContainer}>
-                    <ul className={classes.List} style={{transform: `translateX(${this.state.listPosition * 220}px)`}}>
+                    <ul className={classes.List} style={{transform: `translateX(${this.state.listPosition * this.state.listItemWidth}px)`}}>
                         {events.map(event => <Event key={event.id + Math.random()} {...event} />)}
                     </ul>
                 </div>
-                <NavigationPanel onNextClick={this.nextItemHandler} onPrevClick={this.prevItemHandler}/>
+                <NavigationPanel onNextClick={this.nextItemHandler} onPrevClick={this.prevItemHandler} />
             </div>
         )
     }
