@@ -86,11 +86,12 @@ const events = [
 class EventListContainer extends React.Component {
     state = {
         listPosition: 0,
-        listItemWidth: 0
+        listItemWidth: 0,
+        itemsInRow: 4
     }
 
     nextItemHandler = () => {
-        if(this.state.listPosition+ 4 > 0){
+        if(this.state.listPosition + (events.length - this.state.itemsInRow) > 0){
             this.setState({listPosition: this.state.listPosition - 1});
         }
 
@@ -101,14 +102,23 @@ class EventListContainer extends React.Component {
         }
     }
 
-    updateListItemWidth = (selector) => {
-        this.setState({listItemSelector: selector})
+    updateSize = () => {
+        if(window.innerWidth > 991){
+            const element = document.querySelector(`.${classes.List} li`);
+            const fullElementWidth = getElementWidth(element);
+            this.setState({listItemWidth: fullElementWidth})   
+        }
     }
 
     componentDidMount(){
-        const element = document.querySelector(`.${classes.List} li`);
-        const fullElementWidth = getElementWidth(element);
-        this.setState({listItemWidth: fullElementWidth});
+        this.updateSize();
+        window.addEventListener('resize', () => {
+            this.updateSize()
+        });
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.updateSize);
     }
 
     render() {

@@ -90,7 +90,7 @@ h2:hover::after {
     transform: translateX(-50%) scaleX(0.9);
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 550px) {
     .ImgContainer {
         width: 70vw;
     }
@@ -106,4 +106,40 @@ h2:hover::after {
         margin: 20px auto;
     }
     
+}
+
+
+@media screen and (min-width: 551px) and (max-width: 768px) {
+    .ImgContainer {
+        width: 45vw;
+    }
+
+    .ImgContainer .EvtDescContainer {
+        background-color: #000;
+        opacity: 0.8;
+        color: #fff;
+        transform: translateY(0%);
+    }
+
+    .EventCard {
+        margin: 20px 5px;
+    }
+    
+}
+
+@media screen and (min-width: 769px) and (max-width: 991px) {
+    .ImgContainer {
+        width: 25vw;
+    }
+
+    .ImgContainer .EvtDescContainer {
+        background-color: #000;
+        opacity: 0.8;
+        color: #fff;
+        transform: translateY(0%);
+    }
+
+    .EventCard {
+        margin: 20px 5px;
+    }
 }

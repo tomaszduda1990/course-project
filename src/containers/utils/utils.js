@@ -7,7 +7,6 @@ export const getElementWidth = (element) => {
             width: element.getBoundingClientRect().width
         } 
     }
-    console.log(elementsDimension.sizes.that)
     let fullWidth = 0;
     for(let key in elementsDimension.sizes){
         fullWidth += elementsDimension.sizes[key];
