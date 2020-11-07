@@ -1,10 +1,10 @@
 body {
-  background-color: aliceblue;
-  font-family: "Lato", sans-serif;
-  min-width: fit-content;
+    font-family: 'Lato', sans-serif;
+    min-width: fit-content;
 }
 
-body, html{
-  margin:0;
-  padding:0;
+body,
+html {
+    margin: 0;
+    padding: 0;
 }

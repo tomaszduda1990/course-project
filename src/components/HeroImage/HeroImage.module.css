@@ -14,7 +14,7 @@
 h1 {
     position: absolute;
     padding: 40px 25px;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 20px;
     top: 50%;
     left: 50%;
@@ -27,11 +27,11 @@ h1 {
 @media screen and (min-width: 641px) {
     .ImgContainer {
         background-image: url('../../assets/eventImgMd.jpg');
-    }   
+    }
 }
 
 @media screen and (min-width: 1900px) {
     .ImgContainer {
         background-image: url('../../assets/eventImg.jpg');
-    }   
+    }
 }

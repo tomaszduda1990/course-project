@@ -16,7 +16,7 @@
     overflow: hidden;
 }
 
-.ImgContainer a{
+.ImgContainer a {
     display: block;
     background: #000;
     opacity: 0;
@@ -25,30 +25,31 @@
     transition: opacity 0.4s ease-in-out;
 }
 
-.ImgContainer a:hover{
+.ImgContainer a:focus,
+.ImgContainer a:hover {
     cursor: pointer;
     opacity: 0.2;
 }
 
 .EvtDescContainer {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  transform: translateY(100%);
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
-  padding: 8px 6px;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    transform: translateY(100%);
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+    padding: 8px 6px;
 }
 
 .EvtDesc {
     display: flex;
     align-items: center;
     margin: 3px 0;
-
 }
 
+.ImgContainer:focus .EvtDescContainer,
 .ImgContainer:hover .EvtDescContainer {
     background-color: #000;
     opacity: 0.8;
@@ -63,7 +64,7 @@ h2 {
     padding-bottom: 3px;
 }
 
-h2 a{
+h2 a {
     color: #202022;
     text-decoration: none;
     font-size: 24px;
@@ -71,7 +72,7 @@ h2 a{
 }
 
 h2::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -81,11 +82,12 @@ h2::after {
     background-color: burlywood;
     transition: transform cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s;
 }
-
-h2:hover a{
+h2:focus a,
+h2:hover a {
     color: burlywood;
 }
 
+h2:focus::after,
 h2:hover::after {
     transform: translateX(-50%) scaleX(0.9);
 }
@@ -105,9 +107,14 @@ h2:hover::after {
     .EventCard {
         margin: 20px auto;
     }
-    
 }
 
+.ImgContainer:focus-within .EvtDescContainer {
+    background-color: #000;
+    opacity: 0.8;
+    color: #fff;
+    transform: translateY(0%);
+}
 
 @media screen and (min-width: 551px) and (max-width: 768px) {
     .ImgContainer {
@@ -124,7 +131,6 @@ h2:hover::after {
     .EventCard {
         margin: 20px 5px;
     }
-    
 }
 
 @media screen and (min-width: 769px) and (max-width: 991px) {

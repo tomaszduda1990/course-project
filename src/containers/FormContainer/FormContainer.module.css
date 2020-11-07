@@ -1,0 +1,14 @@
+.FormContainer {
+    padding: 40px 20px;
+}
+
+.FormContainer legend {
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    padding-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffd5d5;
+}
