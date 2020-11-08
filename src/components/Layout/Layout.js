@@ -6,7 +6,8 @@ const layout = (props) => {
         <>
             <div>Toolbar, Sidedrawer, Backdrop</div>
             <main className={classes.Content}>{props.children}</main>
-        </>)
+        </>
+    )
 }
 
-export default layout;
+export default layout

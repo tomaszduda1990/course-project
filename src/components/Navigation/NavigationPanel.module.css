@@ -18,6 +18,19 @@
     animation-direction: alternate;
 }
 
+.Btn {
+    transition: color 0.2s ease-in;
+}
+
+.Btn:hover,
+.Btn:focus {
+    color: #757575;
+}
+
+.Btn:focus {
+    outline: 1px solid #757575;
+}
+
 @keyframes lineFloating {
     0% {
         transform: translateY(-50%) scaleX(1);
