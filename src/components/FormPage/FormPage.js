@@ -6,7 +6,7 @@ const formPage = (props) => {
     return (
         <div className={classes.Questionnaire}>
             {props.children}
-            <div class={classes.BtnContainer}>
+            <div className={classes.BtnContainer}>
                 <Button className={classes.Btn}>Default</Button>
                 <Button variant="contained" className={classes.Btn} disabled>
                     Disabled

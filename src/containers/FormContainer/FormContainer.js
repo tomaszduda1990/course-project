@@ -2,6 +2,7 @@ import React from 'react'
 import { TextField } from '@material-ui/core'
 import FormPage from '../../components/FormPage/FormPage'
 import classes from './FormContainer.module.css'
+
 class FormContainer extends React.Component {
     state = {
         page: 1,
@@ -11,7 +12,7 @@ class FormContainer extends React.Component {
             <>
                 <form className={classes.FormContainer}>
                     <fieldset>
-                        <legend>First Part</legend>
+                        <legend>Let's start</legend>
                         <FormPage>
                             <TextField
                                 id="outlined-basic"
@@ -21,18 +22,54 @@ class FormContainer extends React.Component {
                         </FormPage>
                     </fieldset>
                     <FormPage>
-                        <form className={classes.container} noValidate>
+                        <fieldset>
+                            <legend>When</legend>
                             <TextField
-                                id="datetime-local"
-                                label="Next appointment"
-                                type="datetime-local"
-                                defaultValue="2017-05-24T10:30"
+                                id="date"
+                                label="Birthday"
+                                type="date"
+                                defaultValue=""
                                 className={classes.textField}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                             />
-                        </form>
+                            <TextField
+                                id="time"
+                                label="Time"
+                                type="time"
+                                defaultValue="00:00"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    step: 300, // 5 min
+                                }}
+                            />
+                        </fieldset>
+                    </FormPage>
+                    <FormPage>
+                        <fieldset>
+                            <legend>Details</legend>
+                            <TextField
+                                id="standard-number"
+                                label="Price $"
+                                className={classes.textField}
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-textarea"
+                                label="Event description"
+                                placeholder="description..."
+                                className={classes.textField}
+                                multiline
+                                variant="outlined"
+                            />
+                        </fieldset>
                     </FormPage>
                 </form>
             </>

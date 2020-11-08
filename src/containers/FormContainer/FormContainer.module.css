@@ -2,7 +2,12 @@
     padding: 40px 20px;
 }
 
-.FormContainer legend {
+.FormContainer fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+.FormContainer fieldset legend {
     font-size: 24px;
     letter-spacing: 2px;
     font-weight: bold;
@@ -11,4 +16,8 @@
     text-align: center;
     text-transform: uppercase;
     color: #ffd5d5;
+}
+
+fieldset .textField {
+    margin-top: 25px;
 }
