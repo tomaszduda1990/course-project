@@ -14,3 +14,5 @@ export const getElementWidth = (element) => {
 
     return fullWidth
 }
+
+export const validateField = (req, rule, touched) => req && rule && touched
