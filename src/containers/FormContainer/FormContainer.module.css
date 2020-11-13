@@ -21,3 +21,54 @@
 fieldset .textField {
     margin-top: 25px;
 }
+.NameContainer {
+    z-index: 1;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+}
+.NameContainer::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    z-index: -1;
+}
+
+.NameContainer input {
+    z-index: 100;
+}
+
+.Error label {
+    color: salmon;
+    opacity: 0.7;
+}
+
+.Error::after {
+    transform: translateY(1px) scale(1);
+    background: salmon;
+    opacity: 0.7;
+    animation: growUnderline;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.Success::after {
+    background: aquamarine;
+}
+
+@keyframes growUnderline {
+    0% {
+        transform: translateY(1px) scale(1);
+    }
+    50% {
+        transform: translateY(1px) scale(0.96);
+    }
+    100% {
+        transform: translateY(1px) scale(1);
+    }
+}
