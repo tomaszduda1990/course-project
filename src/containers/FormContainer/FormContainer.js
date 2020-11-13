@@ -17,7 +17,7 @@ class FormContainer extends React.Component {
         validation: {
             name: {
                 isRequired: true,
-                isValid: false,
+                isValid: true,
                 touched: false,
             },
             price: {
@@ -64,16 +64,12 @@ class FormContainer extends React.Component {
 
         copiedDetails.name = val
         validationName.touched = true
-        console.log(val.length)
-        const isValid = validateField(
-            validationName.isRequired,
+        validationName.isValid = validateField(
             val.length > 0 && val.length < 25,
             validationName.touched
         )
 
-        if (isValid) {
-            validationName.isValid = isValid
-            console.log(validationName)
+        if (validationName.isValid) {
             this.setState({
                 details: copiedDetails,
                 validation: {
@@ -81,6 +77,7 @@ class FormContainer extends React.Component {
                     name: validationName,
                 },
             })
+            console.log(this.state.validation.name)
         } else {
             this.setState({
                 validation: {
@@ -88,6 +85,7 @@ class FormContainer extends React.Component {
                     name: validationName,
                 },
             })
+            console.log(this.state.validation.name)
         }
     }
 
@@ -106,11 +104,12 @@ class FormContainer extends React.Component {
     }
     render() {
         const nameInputClasses = [classes.NameContainer]
-        const nameIsValid =
-            this.state.validation.name.isValid &&
-            this.state.validation.name.touched
+        let labelName = 'Event name'
+        if (!this.state.validation.name.isValid) {
+            nameInputClasses.push(classes.Error)
+            labelName = 'Error: name should have 1-25 characters'
+        }
 
-        console.log(nameIsValid)
         return (
             <>
                 <form className={classes.FormContainer}>
@@ -120,7 +119,7 @@ class FormContainer extends React.Component {
                             <TextField
                                 className={nameInputClasses.join(' ')}
                                 id="outlined-basic"
-                                label="Event name"
+                                label={labelName}
                                 variant="outlined"
                                 onInput={this.onNameChangeHandler}
                             />

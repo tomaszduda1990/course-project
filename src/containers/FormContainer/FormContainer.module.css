@@ -41,6 +41,11 @@ fieldset .textField {
     z-index: 100;
 }
 
+.Error label {
+    color: salmon;
+    opacity: 0.7;
+}
+
 .Error::after {
     transform: translateY(1px) scale(1);
     background: salmon;
@@ -61,7 +66,7 @@ fieldset .textField {
         transform: translateY(1px) scale(1);
     }
     50% {
-        transform: translateY(1px) scale(0.93);
+        transform: translateY(1px) scale(0.96);
     }
     100% {
         transform: translateY(1px) scale(1);
