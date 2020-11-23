@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextField } from '@material-ui/core'
 import FormPage from '../../components/FormPage/FormPage'
+import Search from '../../components/Search/Search'
 import { validateField } from '../utils/utils'
 import classes from './FormContainer.module.css'
 
@@ -123,6 +124,7 @@ class FormContainer extends React.Component {
                                 variant="outlined"
                                 onInput={this.onNameChangeHandler}
                             />
+                            <Search />
                         </FormPage>
                     </fieldset>
                     <FormPage>

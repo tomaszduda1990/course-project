@@ -1,0 +1,29 @@
+.List {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ImgItem {
+    width: 30%;
+    height: 200px;
+    margin: 5px;
+    text-align: center;
+}
+
+.ImgContainer {
+    height: 176px;
+}
+
+.ImgItem img {
+    max-width: 100%;
+    max-height: 176px;
+    height: auto;
+}
+
+.Info {
+    display: inline-flex;
+    margin: 0 10px;
+    align-items: center;
+}
