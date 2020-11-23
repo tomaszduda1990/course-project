@@ -1,11 +1,23 @@
 import React, { Component } from 'react'
 import ImageResults from '../ImageResults/ImageResults'
-import { TextField, Select, MenuItem, InputLabel } from '@material-ui/core'
+import { TextField, Select, Button } from '@material-ui/core'
 import axios from 'axios'
+
+const debounce = (fn, delay) => {
+    let timer = null
+    return function (...args) {
+        const context = this
+        timer && clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.apply(context, args)
+        }, delay)
+    }
+}
+
 export default class Search extends Component {
     state = {
         searchText: '',
-        amount: 15,
+        amount: 6,
         apiUrl: 'https://pixabay.com/api/',
         apiKey: '11047628-635bca23b99c10143c7630956',
         images: [],
@@ -15,14 +27,14 @@ export default class Search extends Component {
         this.setState({ amount: e.target.value })
     }
 
-    pictureApiCall = () => {
+    pictureApiCall = (countOfResults) => {
         if (!this.state.searchText) {
             this.setState({ images: [] })
             return
         } else {
             axios
                 .get(
-                    `${this.state.apiUrl}?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`
+                    `${this.state.apiUrl}?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${countOfResults}&safesearch=true`
                 )
                 .then((res) => {
                     this.setState({ images: res.data.hits })
@@ -30,10 +42,14 @@ export default class Search extends Component {
                 .catch((err) => console.log(err))
         }
     }
-
+    moreResultsHandler = () => {
+        const addResults = this.state.amount + 6
+        this.pictureApiCall(addResults)
+        this.setState({ amount: addResults })
+    }
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchText !== this.state.searchText) {
-            this.pictureApiCall()
+            debounce(this.pictureApiCall(this.state.amount), 400)
         }
     }
 
@@ -50,10 +66,29 @@ export default class Search extends Component {
                     onInput={this.onSearchTextChange}
                 />
                 {this.state.images.length ? (
+                    <Button
+                        onClick={this.moreResultsHandler}
+                        variant="contained"
+                        color="primary"
+                    >
+                        More results
+                    </Button>
+                ) : null}
+
+                {this.state.images.length ? (
                     <ImageResults imgs={this.state.images} />
                 ) : (
                     <p>no search results</p>
                 )}
+                {this.state.images.length > 6 ? (
+                    <Button
+                        onClick={this.moreResultsHandler}
+                        variant="contained"
+                        color="primary"
+                    >
+                        More results
+                    </Button>
+                ) : null}
             </div>
         )
     }
