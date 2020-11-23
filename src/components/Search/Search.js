@@ -3,17 +3,6 @@ import ImageResults from '../ImageResults/ImageResults'
 import { TextField, Select, Button } from '@material-ui/core'
 import axios from 'axios'
 
-const debounce = (fn, delay) => {
-    let timer = null
-    return function (...args) {
-        const context = this
-        timer && clearTimeout(timer)
-        timer = setTimeout(() => {
-            fn.apply(context, args)
-        }, delay)
-    }
-}
-
 export default class Search extends Component {
     state = {
         searchText: '',
@@ -49,7 +38,7 @@ export default class Search extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchText !== this.state.searchText) {
-            debounce(this.pictureApiCall(this.state.amount), 400)
+            this.pictureApiCall(this.state.amount)
         }
     }
 
