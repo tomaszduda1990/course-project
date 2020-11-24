@@ -63,6 +63,7 @@ export default class Image extends React.Component {
                     handleCloseModal={this.closeModal}
                     imgUrl={url}
                     imgTags={tags}
+                    submitImg={this.props.submitImg}
                 />
             </li>
         )

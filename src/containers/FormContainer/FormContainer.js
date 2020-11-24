@@ -2,7 +2,8 @@ import React from 'react'
 import { TextField } from '@material-ui/core'
 import FormPage from '../../components/FormPage/FormPage'
 import Search from '../../components/Search/Search'
-import { validateField } from '../utils/utils'
+import Summary from '../../components/FormPage/Summary/Summary'
+import { validateTextField } from '../utils/utils'
 import classes from './FormContainer.module.css'
 
 class FormContainer extends React.Component {
@@ -14,6 +15,7 @@ class FormContainer extends React.Component {
             description: '',
             date: '',
             time: '',
+            image: {},
         },
         validation: {
             name: {
@@ -41,6 +43,9 @@ class FormContainer extends React.Component {
                 isValid: false,
                 touched: false,
             },
+            image: {
+                isValid: false,
+            },
         },
     }
     onTimeChangeHandler = (e) => {
@@ -65,9 +70,11 @@ class FormContainer extends React.Component {
 
         copiedDetails.name = val
         validationName.touched = true
-        validationName.isValid = validateField(
-            val.length > 0 && val.length < 25,
-            validationName.touched
+        validationName.isValid = validateTextField(
+            val,
+            validationName.touched,
+            0,
+            25
         )
 
         if (validationName.isValid) {
@@ -78,7 +85,6 @@ class FormContainer extends React.Component {
                     name: validationName,
                 },
             })
-            console.log(this.state.validation.name)
         } else {
             this.setState({
                 validation: {
@@ -86,7 +92,6 @@ class FormContainer extends React.Component {
                     name: validationName,
                 },
             })
-            console.log(this.state.validation.name)
         }
     }
 
@@ -103,6 +108,43 @@ class FormContainer extends React.Component {
         copiedDetails.description = val
         this.setState({ details: copiedDetails })
     }
+
+    onSearchImageCompletedHandler = (img) => {
+        console.log(img)
+        this.setState({
+            details: {
+                ...this.state.details,
+                image: {
+                    ...this.state.details,
+                    ...img,
+                },
+            },
+            validation: {
+                ...this.state.validation,
+                image: {
+                    ...this.state.validation.image,
+                    isValid: true,
+                },
+            },
+        })
+    }
+
+    onSelectedImageRemoval = () => {
+        this.setState({
+            details: {
+                ...this.state.details,
+                image: {},
+            },
+            validation: {
+                ...this.state.validation,
+                image: {
+                    ...this.state.validation.image,
+                    isValid: false,
+                },
+            },
+        })
+    }
+
     render() {
         const nameInputClasses = [classes.NameContainer]
         let labelName = 'Event name'
@@ -114,20 +156,36 @@ class FormContainer extends React.Component {
         return (
             <>
                 <form className={classes.FormContainer}>
-                    <fieldset>
-                        <legend>Let's start</legend>
-                        <FormPage>
+                    <FormPage
+                        isValid={
+                            this.state.validation.image.isValid &&
+                            this.state.validation.name.isValid
+                        }
+                    >
+                        <fieldset>
+                            <legend>Let's start</legend>
                             <TextField
+                                name="name"
                                 className={nameInputClasses.join(' ')}
                                 id="outlined-basic"
                                 label={labelName}
                                 variant="outlined"
                                 onInput={this.onNameChangeHandler}
                             />
-                            <Search />
-                        </FormPage>
-                    </fieldset>
-                    <FormPage>
+                            <Search
+                                submitImg={this.onSearchImageCompletedHandler}
+                                selectedImg={this.state.details.image}
+                                removeImg={this.onSelectedImageRemoval}
+                            />
+                        </fieldset>
+                    </FormPage>
+
+                    <FormPage
+                        isValid={
+                            this.state.validation.date.isValid &&
+                            this.state.validation.time.isValid
+                        }
+                    >
                         <fieldset>
                             <legend>When</legend>
                             <TextField
@@ -157,7 +215,12 @@ class FormContainer extends React.Component {
                             />
                         </fieldset>
                     </FormPage>
-                    <FormPage>
+                    <FormPage
+                        isValid={
+                            this.state.validation.price.isValid &&
+                            this.state.validation.description.isValid
+                        }
+                    >
                         <fieldset>
                             <legend>Details</legend>
                             <TextField
@@ -181,6 +244,7 @@ class FormContainer extends React.Component {
                             />
                         </fieldset>
                     </FormPage>
+                    {/* <Summary details={this.state.details} /> */}
                 </form>
             </>
         )

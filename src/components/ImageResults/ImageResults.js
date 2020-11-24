@@ -1,11 +1,10 @@
 import React from 'react'
 import classes from './ImageResults.module.css'
 import Image from './Image'
-const ImageResults = ({ imgs }) => {
+const ImageResults = ({ imgs, submitImg }) => {
     return (
         <ul className={classes.List}>
             {imgs.map((img) => {
-                console.log(img)
                 const {
                     id,
                     webformatURL,
@@ -22,6 +21,7 @@ const ImageResults = ({ imgs }) => {
                         tags={tags}
                         likes={likes}
                         downloads={downloads}
+                        submitImg={() => submitImg(img)}
                     />
                 )
             })}
