@@ -60,7 +60,7 @@ export default class Search extends Component {
                         variant="contained"
                         color="primary"
                     >
-                        More results
+                        Show More results
                     </Button>
                 ) : null}
 

@@ -6,14 +6,26 @@
 }
 
 .ImgItem {
-    width: 30%;
+    width: 90%;
     height: 200px;
     margin: 5px;
     text-align: center;
 }
 
+@media screen and (min-width: 500px) {
+    .ImgItem {
+        width: 45%;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .ImgItem {
+        width: 30%;
+    }
+}
+
 .ImgContainer {
-    height: 176px;
+    height: 150px;
 }
 
 .ImgItem img {
@@ -26,4 +38,24 @@
     display: inline-flex;
     margin: 0 10px;
     align-items: center;
+}
+
+.ModalBody {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    text-align: center;
+}
+
+.ModalBody .ImgContainer {
+    height: auto;
+}
+
+.ModalBody .BtnContainer {
+    border-top: 2px solid #1e1e1e;
+}
+.ModalBody .BtnContainer .Btn {
+    margin: 15px;
 }
