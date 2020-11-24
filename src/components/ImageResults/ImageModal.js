@@ -6,6 +6,10 @@ const ImageModal = (props) => {
     const onImageLoadHandler = () => {
         setImageLoaded(true)
     }
+    const onImageSelectHandler = () => {
+        props.submitImg()
+        props.handleCloseModal()
+    }
     return (
         <Modal open={props.modalOpen} onClose={props.handleCloseModal}>
             <div className={classes.ModalBody}>
@@ -30,6 +34,7 @@ const ImageModal = (props) => {
                         className={classes.Btn}
                         variant="contained"
                         color="primary"
+                        onClick={onImageSelectHandler}
                     >
                         Select Picture
                     </Button>

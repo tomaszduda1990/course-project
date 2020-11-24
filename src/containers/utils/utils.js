@@ -15,4 +15,6 @@ export const getElementWidth = (element) => {
     return fullWidth
 }
 
-export const validateField = (rule, touched) => rule && touched
+export const validateTextField = (textVal, touched, min, max) => {
+    return textVal.length > min && textVal.length < max && touched
+}

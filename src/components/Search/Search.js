@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ImageResults from '../ImageResults/ImageResults'
-import { TextField, Select, Button } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
+import SelectImg from './SelectedImg'
 import axios from 'axios'
 
 export default class Search extends Component {
@@ -44,8 +45,22 @@ export default class Search extends Component {
 
     onSearchTextChange = (e) => this.setState({ searchText: e.target.value })
     render() {
+        console.log(this.props.selectedImg)
+        const imageSelected =
+            Object.keys(this.props.selectedImg).length !== 0 &&
+            this.props.selectedImg.constructor === Object
+        console.log(imageSelected)
+        const selectedImg = imageSelected ? (
+            <SelectImg
+                url={this.props.selectedImg.webformatURL}
+                tags={this.props.selectedImg.tags}
+                removeHandler={this.props.removeImg}
+            />
+        ) : null
+
         return (
-            <div>
+            <div style={{ marginTop: '20px' }}>
+                {selectedImg}
                 <TextField
                     name="searchText"
                     value={this.state.searchText}
@@ -65,7 +80,10 @@ export default class Search extends Component {
                 ) : null}
 
                 {this.state.images.length ? (
-                    <ImageResults imgs={this.state.images} />
+                    <ImageResults
+                        submitImg={this.props.submitImg}
+                        imgs={this.state.images}
+                    />
                 ) : (
                     <p>no search results</p>
                 )}
