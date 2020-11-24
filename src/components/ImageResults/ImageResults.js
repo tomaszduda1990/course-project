@@ -5,10 +5,19 @@ const ImageResults = ({ imgs }) => {
     return (
         <ul className={classes.List}>
             {imgs.map((img) => {
-                const { id, webformatURL, tags, likes, downloads } = img
+                console.log(img)
+                const {
+                    id,
+                    webformatURL,
+                    tags,
+                    likes,
+                    downloads,
+                    previewURL,
+                } = img
                 return (
                     <Image
                         key={id}
+                        previewUrl={previewURL}
                         url={webformatURL}
                         tags={tags}
                         likes={likes}
