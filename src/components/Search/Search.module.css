@@ -1,6 +1,9 @@
 .SelectedImg {
     position: relative;
+    padding: 40px 0;
+    text-align: center;
 }
 
 .RemoveSelectedImg {
+    margin: 10px 0;
 }

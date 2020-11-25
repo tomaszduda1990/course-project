@@ -7,14 +7,15 @@ const SelectedImg = (props) => {
             <div className={classes.SelectedImgContainer}>
                 <img src={props.url} alt={props.tags} />
             </div>
-            <Button
-                className={classes.RemoveSelectedImg}
-                variant="outlined"
-                color="secondary"
-                onClick={props.removeHandler}
-            >
-                Remove
-            </Button>
+            <div className={classes.RemoveSelectedImg}>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={props.removeHandler}
+                >
+                    Remove image
+                </Button>
+            </div>
         </div>
     )
 }

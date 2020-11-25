@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import ImageResults from '../ImageResults/ImageResults'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, CircularProgress } from '@material-ui/core'
 import SelectImg from './SelectedImg'
+import { debounce } from './utils/utils'
 import axios from 'axios'
 
 export default class Search extends Component {
@@ -11,13 +12,12 @@ export default class Search extends Component {
         apiUrl: 'https://pixabay.com/api/',
         apiKey: '11047628-635bca23b99c10143c7630956',
         images: [],
+        loading: false,
     }
 
-    onPictureCountChange = (e) => {
-        this.setState({ amount: e.target.value })
-    }
+    debouncedTextInput = debounce(this.pictureApiCall.bind(this), 1000)
 
-    pictureApiCall = (countOfResults) => {
+    pictureApiCall(countOfResults) {
         if (!this.state.searchText) {
             this.setState({ images: [] })
             return
@@ -28,28 +28,37 @@ export default class Search extends Component {
                 )
                 .then((res) => {
                     this.setState({ images: res.data.hits })
+                    this.setState({ loading: false })
                 })
                 .catch((err) => console.log(err))
         }
     }
     moreResultsHandler = () => {
         const addResults = this.state.amount + 6
-        this.pictureApiCall(addResults)
+        this.debouncedTextInput(addResults)
         this.setState({ amount: addResults })
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchText !== this.state.searchText) {
-            this.pictureApiCall(this.state.amount)
+            this.debouncedTextInput(this.state.amount)
         }
     }
 
-    onSearchTextChange = (e) => this.setState({ searchText: e.target.value })
+    onSearchTextChange = (e) => {
+        if (e.target.value === '') {
+            this.setState({
+                searchText: e.target.value,
+                images: [],
+                loading: false,
+            })
+        } else {
+            this.setState({ searchText: e.target.value, loading: true })
+        }
+    }
     render() {
-        console.log(this.props.selectedImg)
         const imageSelected =
             Object.keys(this.props.selectedImg).length !== 0 &&
             this.props.selectedImg.constructor === Object
-        console.log(imageSelected)
         const selectedImg = imageSelected ? (
             <SelectImg
                 url={this.props.selectedImg.webformatURL}
@@ -78,15 +87,17 @@ export default class Search extends Component {
                         Show More results
                     </Button>
                 ) : null}
-
-                {this.state.images.length ? (
+                {this.state.loading && this.state.searchText ? (
+                    <CircularProgress />
+                ) : (
                     <ImageResults
                         submitImg={this.props.submitImg}
                         imgs={this.state.images}
                     />
-                ) : (
-                    <p>no search results</p>
                 )}
+                {this.state.images.length === 0 ? (
+                    <p>no search results</p>
+                ) : null}
                 {this.state.images.length > 6 ? (
                     <Button
                         onClick={this.moreResultsHandler}
