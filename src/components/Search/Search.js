@@ -45,11 +45,9 @@ export default class Search extends Component {
 
     onSearchTextChange = (e) => this.setState({ searchText: e.target.value })
     render() {
-        console.log(this.props.selectedImg)
         const imageSelected =
             Object.keys(this.props.selectedImg).length !== 0 &&
             this.props.selectedImg.constructor === Object
-        console.log(imageSelected)
         const selectedImg = imageSelected ? (
             <SelectImg
                 url={this.props.selectedImg.webformatURL}
