@@ -14,10 +14,7 @@ export const Summary = ({
     time,
     onSubmit,
 }) => {
-    console.log(image)
-    if (!!name) {
-        return null
-    }
+    console.log(name, price, description, image, date, time)
     return (
         <div className={classes.Summary}>
             <div className={classes.ImgContainer}>

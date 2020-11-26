@@ -3,7 +3,7 @@ import { TextField } from '@material-ui/core'
 import FormPage from '../../components/FormPage/FormPage'
 import Search from '../../components/Search/Search'
 import Summary from '../../components/FormPage/Summary/Summary'
-import { validateTextField } from '../utils/utils'
+import { validateTextField, validateDateField } from '../utils/utils'
 import classes from './FormContainer.module.css'
 
 class FormContainer extends React.Component {
@@ -19,27 +19,22 @@ class FormContainer extends React.Component {
         },
         validation: {
             name: {
-                isRequired: true,
                 isValid: true,
                 touched: false,
             },
             price: {
-                isRequired: false,
                 isValid: false,
                 touched: false,
             },
             description: {
-                isRequired: false,
                 isValid: false,
                 touched: false,
             },
             date: {
-                isRequired: true,
                 isValid: false,
                 touched: false,
             },
             time: {
-                isRequired: true,
                 isValid: false,
                 touched: false,
             },
@@ -47,19 +42,74 @@ class FormContainer extends React.Component {
                 isValid: false,
             },
         },
+        valid: false,
     }
     onTimeChangeHandler = (e) => {
         const val = e.target.value
-        const copiedDetails = { ...this.state.details }
+        const copiedDetails = { ...this.state.details[e.target.type] }
+        const copiedValidation = { ...this.state.validation[e.target.type] }
         copiedDetails[e.target.type] = val
-        const checkToBig =
-            parseInt(val.split('-')[0]) <= new Date().getFullYear() + 5 // today year + 5
-        const checkToSmall =
-            new Date().getTime() + 86400000 < new Date(val).getTime() //  todayTimestamp + 24hrs
-        if (checkToBig && checkToSmall) {
-            this.setState({ details: copiedDetails })
-        } else {
-            alert('error')
+        copiedValidation.touched = true
+        console.log(copiedDetails)
+        if (
+            e.target.type === 'date' &&
+            validateDateField(val, copiedValidation.touched)
+        ) {
+            this.setState({
+                details: {
+                    ...this.state.details,
+                    [e.target.type]: copiedDetails[e.target.type],
+                },
+                validation: {
+                    ...this.state.validation,
+                    [e.target.type]: {
+                        ...copiedValidation,
+                        isValid: true,
+                    },
+                },
+            })
+        } else if (
+            e.target.type === 'date' &&
+            !validateDateField(val, copiedValidation.touched)
+        ) {
+            e.target.classList.add('incorrect')
+            this.setState({
+                validation: {
+                    ...this.state.validation,
+                    [e.target.type]: {
+                        ...copiedValidation,
+                        isValid: false,
+                    },
+                },
+            })
+        } else if (e.target.type === 'time' && val !== '') {
+            this.setState({
+                details: {
+                    ...this.state.details,
+                    [e.target.type]: copiedDetails[e.target.type],
+                },
+                validation: {
+                    ...this.state.validation,
+                    [e.target.type]: {
+                        ...copiedValidation,
+                        isValid: true,
+                    },
+                },
+            })
+        } else if (
+            e.target.type === 'time' &&
+            val === '' &&
+            copiedValidation.touched
+        ) {
+            this.setState({
+                validation: {
+                    ...this.state.validation,
+                    [e.target.type]: {
+                        ...copiedValidation,
+                        isValid: false,
+                    },
+                },
+            })
         }
     }
 
@@ -98,19 +148,66 @@ class FormContainer extends React.Component {
     onPriceChangeHandler = (e) => {
         const val = e.target.value
         const copiedDetails = { ...this.state.details }
+        const validationPrice = { ...this.state.validation.price }
         copiedDetails.price = val
-        this.setState({ details: copiedDetails })
+        if (val >= 0) {
+            validationPrice.isValid = true
+            this.setState({
+                details: copiedDetails,
+                validation: {
+                    ...this.state.validation,
+                    price: {
+                        ...this.state.validation.price,
+                        ...validationPrice,
+                    },
+                },
+            })
+        } else {
+            validationPrice.isValid = false
+            this.setState({
+                validation: {
+                    ...this.state.validation,
+                    price: {
+                        ...this.state.validation.price,
+                        ...validationPrice,
+                    },
+                },
+            })
+        }
     }
 
     onDescriptionChangeHandler = (e) => {
         const val = e.target.value
         const copiedDetails = { ...this.state.details }
         copiedDetails.description = val
-        this.setState({ details: copiedDetails })
+        const validationDescription = { ...this.state.validation.description }
+        if (copiedDetails.description.length > 15) {
+            validationDescription.isValid = true
+            this.setState({
+                details: { ...copiedDetails },
+                validation: {
+                    ...this.state.validation,
+                    description: {
+                        ...this.state.validation.description,
+                        ...validationDescription,
+                    },
+                },
+            })
+        } else {
+            validationDescription.isValid = false
+            this.setState({
+                validation: {
+                    ...this.state.validation,
+                    description: {
+                        ...this.state.validation.description,
+                        ...validationDescription,
+                    },
+                },
+            })
+        }
     }
 
     onSearchImageCompletedHandler = (img) => {
-        console.log(img)
         this.setState({
             details: {
                 ...this.state.details,
@@ -145,6 +242,25 @@ class FormContainer extends React.Component {
         })
     }
 
+    applicationValidation = () => {
+        let isApplicationFormValid = true
+        for (let key in this.state.validation) {
+            isApplicationFormValid =
+                isApplicationFormValid && this.state.validation[key].isValid
+        }
+        console.log(isApplicationFormValid)
+        this.setState({ valid: isApplicationFormValid })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            JSON.stringify(prevState.validation) !==
+            JSON.stringify(this.state.validation)
+        ) {
+            this.applicationValidation()
+        }
+    }
+
     render() {
         const nameInputClasses = [classes.NameContainer]
         let labelName = 'Event name'
@@ -152,7 +268,6 @@ class FormContainer extends React.Component {
             nameInputClasses.push(classes.Error)
             labelName = 'Error: name should have 1-25 characters'
         }
-
         return (
             <>
                 <form className={classes.FormContainer}>
@@ -203,7 +318,7 @@ class FormContainer extends React.Component {
                                 id="time"
                                 label="Time"
                                 type="time"
-                                defaultValue="00:00"
+                                defaultValue=""
                                 onChange={this.onTimeChangeHandler}
                                 className={classes.textField}
                                 InputLabelProps={{
@@ -244,7 +359,9 @@ class FormContainer extends React.Component {
                             />
                         </fieldset>
                     </FormPage>
-                    {/* <Summary details={this.state.details} /> */}
+                    {this.state.valid ? (
+                        <Summary {...this.state.details} />
+                    ) : null}
                 </form>
             </>
         )
