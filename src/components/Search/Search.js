@@ -46,6 +46,7 @@ export default class Search extends Component {
     }
 
     onSearchTextChange = (e) => {
+        this.props.onTouch()
         if (e.target.value === '') {
             this.setState({
                 searchText: e.target.value,
@@ -73,10 +74,15 @@ export default class Search extends Component {
                 {selectedImg}
                 <div className={classes.SearchPanel}>
                     <TextField
+                        error={this.props.error}
                         name="searchText"
                         value={this.state.searchText}
                         id="outlined-basic"
-                        label="Search for Images"
+                        label={
+                            this.props.error
+                                ? 'please select image'
+                                : 'Search for Images'
+                        }
                         variant="outlined"
                         onInput={this.onSearchTextChange}
                     />

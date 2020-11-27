@@ -19,7 +19,7 @@ class FormContainer extends React.Component {
         },
         validation: {
             name: {
-                isValid: true,
+                isValid: false,
                 touched: false,
             },
             price: {
@@ -40,6 +40,7 @@ class FormContainer extends React.Component {
             },
             image: {
                 isValid: false,
+                touched: false,
             },
         },
         valid: false,
@@ -150,6 +151,7 @@ class FormContainer extends React.Component {
         const copiedDetails = { ...this.state.details }
         const validationPrice = { ...this.state.validation.price }
         copiedDetails.price = val
+        validationPrice.touched = true
         if (val >= 0) {
             validationPrice.isValid = true
             this.setState({
@@ -181,6 +183,7 @@ class FormContainer extends React.Component {
         const copiedDetails = { ...this.state.details }
         copiedDetails.description = val
         const validationDescription = { ...this.state.validation.description }
+        validationDescription.touched = true
         if (copiedDetails.description.length > 15) {
             validationDescription.isValid = true
             this.setState({
@@ -205,6 +208,18 @@ class FormContainer extends React.Component {
                 },
             })
         }
+    }
+
+    onImageSearchInputTouch = () => {
+        this.setState({
+            validation: {
+                ...this.state.validation,
+                image: {
+                    ...this.state.validation.image,
+                    touched: true,
+                },
+            },
+        })
     }
 
     onSearchImageCompletedHandler = (img) => {
@@ -261,29 +276,67 @@ class FormContainer extends React.Component {
         }
     }
 
+    nextPageHandler = () => {
+        const val = this.state.page + 1
+        this.setState({ page: val })
+    }
+
+    prevPageHandler = () => {
+        const val = this.state.page - 1
+        this.setState({ page: val })
+    }
+
+    onSubmitHandler = () => {
+        alert('SUBMITED')
+    }
+
     render() {
-        const nameInputClasses = [classes.NameContainer]
-        let labelName = 'Event name'
-        if (!this.state.validation.name.isValid) {
-            nameInputClasses.push(classes.Error)
-            labelName = 'Error: name should have 1-25 characters'
-        }
-        return (
-            <>
-                <form className={classes.FormContainer}>
+        const nameError =
+            !this.state.validation.name.isValid &&
+            this.state.validation.name.touched
+        const imgError =
+            !this.state.validation.image.isValid &&
+            this.state.validation.image.touched
+        const dateError =
+            !this.state.validation.date.isValid &&
+            this.state.validation.date.touched
+        const timeError =
+            !this.state.validation.time.isValid &&
+            this.state.validation.time.touched
+        const priceError =
+            !this.state.validation.price.isValid &&
+            this.state.validation.price.touched
+        const descriptionError =
+            !this.state.validation.description.isValid &&
+            this.state.validation.description.touched
+        let renderedElement
+        switch (this.state.page) {
+            case 1:
+                renderedElement = (
                     <FormPage
                         isValid={
                             this.state.validation.image.isValid &&
                             this.state.validation.name.isValid
                         }
+                        pageNum={1}
+                        nextPage={this.nextPageHandler}
+                        prevPage={this.prevPageHandler}
                     >
                         <fieldset>
                             <legend>Let's start</legend>
                             <TextField
                                 name="name"
-                                className={nameInputClasses.join(' ')}
-                                id="outlined-basic"
-                                label={labelName}
+                                error={nameError}
+                                id={
+                                    nameError
+                                        ? 'outlined-basic'
+                                        : 'filled-error'
+                                }
+                                label={
+                                    nameError
+                                        ? 'please provide correct name'
+                                        : 'event name'
+                                }
                                 variant="outlined"
                                 onInput={this.onNameChangeHandler}
                             />
@@ -291,21 +344,34 @@ class FormContainer extends React.Component {
                                 submitImg={this.onSearchImageCompletedHandler}
                                 selectedImg={this.state.details.image}
                                 removeImg={this.onSelectedImageRemoval}
+                                onTouch={this.onImageSearchInputTouch}
+                                error={imgError}
                             />
                         </fieldset>
                     </FormPage>
-
+                )
+                break
+            case 2:
+                renderedElement = (
                     <FormPage
                         isValid={
                             this.state.validation.date.isValid &&
                             this.state.validation.time.isValid
                         }
+                        pageNum={2}
+                        nextPage={this.nextPageHandler}
+                        prevPage={this.prevPageHandler}
                     >
                         <fieldset>
                             <legend>When</legend>
                             <TextField
+                                error={dateError}
                                 id="date"
-                                label="Event date"
+                                label={
+                                    dateError
+                                        ? 'please select at least 2 days ahead'
+                                        : 'Event date'
+                                }
                                 type="date"
                                 defaultValue=""
                                 className={classes.textField}
@@ -315,8 +381,9 @@ class FormContainer extends React.Component {
                                 }}
                             />
                             <TextField
+                                error={timeError}
                                 id="time"
-                                label="Time"
+                                label={timeError ? 'please complete' : 'Time'}
                                 type="time"
                                 defaultValue=""
                                 onChange={this.onTimeChangeHandler}
@@ -330,17 +397,29 @@ class FormContainer extends React.Component {
                             />
                         </fieldset>
                     </FormPage>
+                )
+                break
+            case 3:
+                renderedElement = (
                     <FormPage
                         isValid={
                             this.state.validation.price.isValid &&
                             this.state.validation.description.isValid
                         }
+                        pageNum={3}
+                        nextPage={this.nextPageHandler}
+                        prevPage={this.prevPageHandler}
                     >
                         <fieldset>
                             <legend>Details</legend>
                             <TextField
+                                error={priceError}
                                 id="standard-number"
-                                label="Price $"
+                                label={
+                                    priceError
+                                        ? 'please provide correct price'
+                                        : 'Price $'
+                                }
                                 className={classes.textField}
                                 type="number"
                                 onChange={this.onPriceChangeHandler}
@@ -349,8 +428,13 @@ class FormContainer extends React.Component {
                                 }}
                             />
                             <TextField
+                                error={descriptionError}
                                 id="outlined-textarea"
-                                label="Event description"
+                                label={
+                                    descriptionError
+                                        ? 'description should have than 15 characters'
+                                        : 'Event description'
+                                }
                                 placeholder="description..."
                                 className={classes.textField}
                                 onChange={this.onDescriptionChangeHandler}
@@ -359,12 +443,23 @@ class FormContainer extends React.Component {
                             />
                         </fieldset>
                     </FormPage>
-                    {this.state.valid ? (
-                        <Summary {...this.state.details} />
-                    ) : null}
-                </form>
-            </>
-        )
+                )
+                break
+            case 4:
+                renderedElement = this.state.valid ? (
+                    <Summary
+                        {...this.state.details}
+                        prevPage={this.prevPageHandler}
+                        onSubmit={this.onSubmitHandler}
+                    />
+                ) : null
+                break
+            default:
+                renderedElement = null
+                break
+        }
+
+        return <form className={classes.FormContainer}>{renderedElement}</form>
     }
 }
 

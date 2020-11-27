@@ -39,10 +39,6 @@ fieldset .textField {
     z-index: -1;
 }
 
-.NameContainer input {
-    z-index: 100;
-}
-
 .Error label {
     color: salmon;
     opacity: 0.7;

@@ -13,6 +13,7 @@ export const Summary = ({
     date,
     time,
     onSubmit,
+    prevPage,
 }) => {
     console.log(name, price, description, image, date, time)
     return (
@@ -27,8 +28,8 @@ export const Summary = ({
             </div>
             <h2 className={classes.EventTitle}>{name}</h2>
             <p className={classes.EventDescription}>{description}</p>
-            <Button>Edit event</Button>
-            <Button variant="contained" color="primary">
+            <Button onClick={prevPage}>Edit event</Button>
+            <Button variant="contained" color="primary" onClick={onSubmit}>
                 Submit
             </Button>
         </div>

@@ -15,12 +15,17 @@ const formPage = (props) => {
         <div className={classes.Questionnaire}>
             {props.children}
             <div className={classes.BtnContainer}>
-                <Button className={classes.Btn}>Default</Button>
+                {props.pageNum !== 1 ? (
+                    <Button className={classes.Btn} onClick={props.prevPage}>
+                        Previous page
+                    </Button>
+                ) : null}
                 <StyledButtonNextStep
                     variant="contained"
                     className={classes.Btn}
                     disabled={!props.isValid}
                     color={props.isValid ? 'primary' : 'default'}
+                    onClick={props.nextPage}
                 >
                     Next Step
                 </StyledButtonNextStep>
