@@ -4,6 +4,7 @@ import { TextField, Button, CircularProgress } from '@material-ui/core'
 import SelectImg from './SelectedImg'
 import { debounce } from './utils/utils'
 import axios from 'axios'
+import classes from './Search.module.css'
 
 export default class Search extends Component {
     state = {
@@ -45,6 +46,7 @@ export default class Search extends Component {
     }
 
     onSearchTextChange = (e) => {
+        this.props.onTouch()
         if (e.target.value === '') {
             this.setState({
                 searchText: e.target.value,
@@ -70,43 +72,52 @@ export default class Search extends Component {
         return (
             <div style={{ marginTop: '20px' }}>
                 {selectedImg}
-                <TextField
-                    name="searchText"
-                    value={this.state.searchText}
-                    id="outlined-basic"
-                    label="Search for Images"
-                    variant="outlined"
-                    onInput={this.onSearchTextChange}
-                />
-                {this.state.images.length ? (
-                    <Button
-                        onClick={this.moreResultsHandler}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Show More results
-                    </Button>
-                ) : null}
-                {this.state.loading && this.state.searchText ? (
-                    <CircularProgress />
-                ) : (
-                    <ImageResults
-                        submitImg={this.props.submitImg}
-                        imgs={this.state.images}
+                <div className={classes.SearchPanel}>
+                    <TextField
+                        error={this.props.error}
+                        name="searchText"
+                        value={this.state.searchText}
+                        id="outlined-basic"
+                        label={
+                            this.props.error
+                                ? 'please select image'
+                                : 'Search for Images'
+                        }
+                        variant="outlined"
+                        onInput={this.onSearchTextChange}
                     />
-                )}
-                {this.state.images.length === 0 ? (
-                    <p>no search results</p>
-                ) : null}
-                {this.state.images.length > 6 ? (
-                    <Button
-                        onClick={this.moreResultsHandler}
-                        variant="contained"
-                        color="primary"
-                    >
-                        More results
-                    </Button>
-                ) : null}
+                    {this.state.images.length ? (
+                        <Button
+                            onClick={this.moreResultsHandler}
+                            variant="contained"
+                            color="primary"
+                        >
+                            More results
+                        </Button>
+                    ) : null}
+                </div>
+                <div className={classes.SearchResultsContainer}>
+                    {this.state.loading && this.state.searchText ? (
+                        <CircularProgress />
+                    ) : (
+                        <ImageResults
+                            submitImg={this.props.submitImg}
+                            imgs={this.state.images}
+                        />
+                    )}
+                    {this.state.images.length === 0 ? (
+                        <p>no search results</p>
+                    ) : null}
+                    {this.state.images.length > 6 ? (
+                        <Button
+                            onClick={this.moreResultsHandler}
+                            variant="contained"
+                            color="primary"
+                        >
+                            More results
+                        </Button>
+                    ) : null}
+                </div>
             </div>
         )
     }

@@ -7,3 +7,13 @@
 .RemoveSelectedImg {
     margin: 10px 0;
 }
+
+.SearchResultsContainer {
+    text-align: center;
+}
+
+.SearchPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
