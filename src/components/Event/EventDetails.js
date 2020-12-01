@@ -5,9 +5,9 @@ import Chips from './utils/Chips'
 const eventDetails = (props) => {
     return (
         <div className={classes.EventDetailsTile}>
-            <h1>{props.title}</h1>
+            <h1>{props.name}</h1>
             <div className={classes.ImgContainer}>
-                <img src={props.imgUrl} alt={props.title + ' image'} />
+                <img src={props.imgUrl} alt={props.name + ' image'} />
             </div>
             <div className={classes.Details}>
                 <Chips element="Date" text="Date:" data={props.date} />
