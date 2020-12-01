@@ -51,7 +51,6 @@ class FormContainer extends React.Component {
         const copiedValidation = { ...this.state.validation[e.target.type] }
         copiedDetails[e.target.type] = val
         copiedValidation.touched = true
-        console.log(copiedDetails)
         if (
             e.target.type === 'date' &&
             validateDateField(val, copiedValidation.touched)
@@ -263,7 +262,6 @@ class FormContainer extends React.Component {
             isApplicationFormValid =
                 isApplicationFormValid && this.state.validation[key].isValid
         }
-        console.log(isApplicationFormValid)
         this.setState({ valid: isApplicationFormValid })
     }
 
@@ -284,10 +282,6 @@ class FormContainer extends React.Component {
     prevPageHandler = () => {
         const val = this.state.page - 1
         this.setState({ page: val })
-    }
-
-    onSubmitHandler = () => {
-        alert('SUBMITED')
     }
 
     render() {
@@ -450,7 +444,9 @@ class FormContainer extends React.Component {
                     <Summary
                         {...this.state.details}
                         prevPage={this.prevPageHandler}
-                        onSubmit={this.onSubmitHandler}
+                        onSubmit={() =>
+                            this.props.formSubmission(this.state.details)
+                        }
                     />
                 ) : null
                 break

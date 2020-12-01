@@ -9,7 +9,9 @@ class EventListItem extends React.Component {
             <li className={classes.EventCard}>
                 <div
                     className={classes.ImgContainer}
-                    style={{ backgroundImage: `url(${this.props.imgUrl})` }}
+                    style={{
+                        backgroundImage: `url("${this.props.image.webformatURL}")`,
+                    }}
                 >
                     <a href="#"></a>
                     <p className={classes.EvtDescContainer}>
@@ -18,13 +20,15 @@ class EventListItem extends React.Component {
                         </span>
                         <span className={classes.EvtDesc}>
                             <AttachMoneyIcon />{' '}
-                            <strong>{this.props.price.toFixed(2)}</strong>
+                            <strong>
+                                {parseFloat(this.props.price).toFixed(2)}
+                            </strong>
                         </span>
                     </p>
                 </div>
                 <h2>
-                    <a href="#" alt={this.props.title + ' eventListItem title'}>
-                        {this.props.title}
+                    <a href="#" alt={this.props.name + ' eventListItem title'}>
+                        {this.props.name}
                     </a>
                 </h2>
             </li>

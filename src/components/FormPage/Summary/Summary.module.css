@@ -1,2 +1,30 @@
 .Summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ChipsContainer > div {
+    margin: 0 5px;
+}
+
+.ChipsContainer {
+    padding-top: 10px;
+}
+
+.EventTitle {
+    font-size: 24px;
+    text-transform: uppercase;
+    margin: 20px 0;
+}
+
+.EventDescription {
+    padding: 20px;
+    box-shadow: 0 0 2px 2px #ddd;
+    max-width: 640px;
+}
+
+.BtnContainer {
+    padding: 20px;
 }
