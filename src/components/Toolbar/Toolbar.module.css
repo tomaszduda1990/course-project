@@ -1,0 +1,16 @@
+.Toolbar {
+    background-color: rgb(5, 5, 19);
+    color: #fff;
+    padding: 20px;
+  
+}
+
+.Container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+   justify-content: space-between;
+   width: 100%;
+   max-width: 960px;
+   margin: 0 auto;
+}
