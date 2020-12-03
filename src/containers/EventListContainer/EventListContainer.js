@@ -18,12 +18,14 @@ class EventListContainer extends React.Component {
                 (this.state.events.length - this.state.itemsInRow) >
             0
         ) {
-            this.setState({ listPosition: this.state.listPosition - 1 })
+            const position = this.state.listPosition - 1
+            this.setState({ listPosition: position})
         }
     }
     prevItemHandler = () => {
         if (this.state.listPosition) {
-            this.setState({ listPosition: this.state.listPosition + 1 })
+            const position = this.state.listPosition + 1
+            this.setState({ listPosition: position })
         }
     }
 
