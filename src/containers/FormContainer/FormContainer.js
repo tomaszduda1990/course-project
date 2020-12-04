@@ -284,6 +284,47 @@ class FormContainer extends React.Component {
         this.setState({ page: val })
     }
 
+    resetFormHandler = () => {
+        this.setState({
+            page: 1,
+            details: {
+                name: '',
+                price: 0,
+                description: '',
+                date: '',
+                time: '',
+                image: {},
+            },
+            validation: {
+                name: {
+                    isValid: false,
+                    touched: false,
+                },
+                price: {
+                    isValid: false,
+                    touched: false,
+                },
+                description: {
+                    isValid: false,
+                    touched: false,
+                },
+                date: {
+                    isValid: false,
+                    touched: false,
+                },
+                time: {
+                    isValid: false,
+                    touched: false,
+                },
+                image: {
+                    isValid: false,
+                    touched: false,
+                },
+            },
+            valid: false,
+        })
+    }
+
     render() {
         const nameError =
             !this.state.validation.name.isValid &&
@@ -445,7 +486,10 @@ class FormContainer extends React.Component {
                         {...this.state.details}
                         prevPage={this.prevPageHandler}
                         onSubmit={() =>
-                            this.props.formSubmission(this.state.details)
+                            this.props.formSubmission(
+                                this.state.details,
+                                this.resetFormHandler
+                            )
                         }
                     />
                 ) : null
