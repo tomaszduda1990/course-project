@@ -3,7 +3,7 @@ import ImageResults from '../ImageResults/ImageResults'
 import { TextField, Button, CircularProgress } from '@material-ui/core'
 import SelectImg from './SelectedImg'
 import { debounce } from './utils/utils'
-import axios from 'axios'
+import { instancePixabay } from '../../axios/axios'
 import classes from './Search.module.css'
 
 export default class Search extends Component {
@@ -23,10 +23,14 @@ export default class Search extends Component {
             this.setState({ images: [] })
             return
         } else {
-            axios
-                .get(
-                    `${this.state.apiUrl}?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${countOfResults}&safesearch=true`
-                )
+            instancePixabay
+                .get('', {
+                    params: {
+                        key: this.state.apiKey,
+                        q: this.state.searchText,
+                        per_page: countOfResults,
+                    },
+                })
                 .then((res) => {
                     this.setState({ images: res.data.hits })
                     this.setState({ loading: false })

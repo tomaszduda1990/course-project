@@ -4,7 +4,7 @@ import FormContainer from '../FormContainer/FormContainer'
 import EventListContainer from '../EventListContainer/EventListContainer'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import NoEvents from '../../components/NoEvents/NoEvents'
-import axios from '../../axios/axios'
+import { instanceFirebase } from '../../axios/axios'
 
 class App extends React.Component {
     state = {
@@ -21,7 +21,7 @@ class App extends React.Component {
                 events: [...copiedEvents],
             }
         })
-        axios
+        instanceFirebase
             .post('/events.json', evtArray)
             .then((res) => console.log(res))
             .catch((err) => console.error('Oh my god, error! ', err))
