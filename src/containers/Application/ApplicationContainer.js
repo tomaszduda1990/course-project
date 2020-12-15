@@ -28,9 +28,21 @@ class App extends React.Component {
         setTimeout(resetFormHandler, 500)
     }
 
+    getEventsFromServer = () => {
+        instanceFirebase
+            .get('/events.json')
+            .then((res) => {
+                const data = []
+                for (let key in res.data) {
+                    data.push(res.data[key])
+                }
+                this.setState({ events: data })
+            })
+            .catch((err) => console.log(err))
+    }
+
     componentDidMount() {
-        const evtArray = JSON.parse(localStorage.getItem('events'))
-        this.setState({ events: evtArray })
+        this.getEventsFromServer()
     }
     render() {
         return (
