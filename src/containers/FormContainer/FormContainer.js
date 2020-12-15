@@ -44,6 +44,7 @@ class FormContainer extends React.Component {
             },
         },
         valid: false,
+        loading: false,
     }
     onTimeChangeHandler = (e) => {
         const val = e.target.value
@@ -322,6 +323,7 @@ class FormContainer extends React.Component {
                 },
             },
             valid: false,
+            loading: false,
         })
     }
 
@@ -484,13 +486,15 @@ class FormContainer extends React.Component {
                 renderedElement = this.state.valid ? (
                     <Summary
                         {...this.state.details}
+                        loading={this.state.loading}
                         prevPage={this.prevPageHandler}
-                        onSubmit={() =>
+                        onSubmit={() => {
+                            this.setState({ loading: true })
                             this.props.formSubmission(
                                 this.state.details,
                                 this.resetFormHandler
                             )
-                        }
+                        }}
                     />
                 ) : null
                 break

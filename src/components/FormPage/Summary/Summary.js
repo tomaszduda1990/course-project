@@ -3,6 +3,8 @@ import { Button, Chip } from '@material-ui/core'
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import EventIcon from '@material-ui/icons/Event'
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 import classes from './Summary.module.css'
 
 export const Summary = ({
@@ -14,6 +16,7 @@ export const Summary = ({
     time,
     onSubmit,
     prevPage,
+    loading,
 }) => {
     return (
         <div className={classes.Summary}>
@@ -38,7 +41,7 @@ export const Summary = ({
             <div className={classes.BtnContainer}>
                 <Button onClick={prevPage}>Edit event</Button>
                 <Button variant="contained" color="primary" onClick={onSubmit}>
-                    Submit
+                    {loading ? <CircularProgress color="black" /> : 'Submit'}
                 </Button>
             </div>
         </div>
