@@ -9,13 +9,31 @@ const Toolbar = (props) => {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink to="/about">About</NavLink>
+                            <NavLink
+                                exact
+                                activeClassName={classes.active}
+                                to="/about"
+                            >
+                                About
+                            </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/new-event">New Event</NavLink>
+                            <NavLink
+                                exact
+                                activeClassName={classes.active}
+                                to="/new-event"
+                            >
+                                New Event
+                            </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/contact">Contact</NavLink>
+                            <NavLink
+                                exact
+                                activeClassName={classes.active}
+                                to="/contact"
+                            >
+                                Contact
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>
