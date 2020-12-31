@@ -3,8 +3,8 @@ import Layout from '../../components/Layout/Layout'
 import FormContainer from '../FormContainer/FormContainer'
 import EventListContainer from '../EventListContainer/EventListContainer'
 import HeroImage from '../../components/HeroImage/HeroImage'
-import NoEvents from '../../components/NoEvents/NoEvents'
 import { instanceFirebase } from '../../axios/axios'
+import { Route, Switch } from 'react-router-dom'
 
 class App extends React.Component {
     state = {
@@ -23,9 +23,11 @@ class App extends React.Component {
         })
         instanceFirebase
             .post('/events.json', evtArray)
-            .then((res) => console.log(res))
+            .then((res) => {
+                console.log(res)
+                resetFormHandler()
+            })
             .catch((err) => console.error('Oh my god, error! ', err))
-        setTimeout(resetFormHandler, 500)
     }
 
     getEventsFromServer = () => {
@@ -41,20 +43,22 @@ class App extends React.Component {
             .catch((err) => console.log(err))
     }
 
-    componentDidMount() {
-        this.getEventsFromServer()
-    }
     render() {
         return (
             <div className="App">
                 <Layout>
                     <HeroImage />
-                    {this.state.events.length ? (
-                        <EventListContainer events={this.state.events} />
-                    ) : (
-                        <NoEvents />
-                    )}
-                    <FormContainer formSubmission={this.onFormSubmit} />
+                    <Switch>
+                        <Route
+                            path="/new-event"
+                            render={() => (
+                                <FormContainer
+                                    formSubmission={this.onFormSubmit}
+                                />
+                            )}
+                        />
+                        <Route path="/" component={EventListContainer} />
+                    </Switch>
                 </Layout>
             </div>
         )
