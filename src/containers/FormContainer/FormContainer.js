@@ -5,6 +5,7 @@ import Search from '../../components/Search/Search'
 import Summary from '../../components/FormPage/Summary/Summary'
 import { validateTextField, validateDateField } from '../utils/utils'
 import classes from './FormContainer.module.css'
+import { withRouter } from 'react-router-dom'
 
 class FormContainer extends React.Component {
     state = {
@@ -325,6 +326,9 @@ class FormContainer extends React.Component {
             valid: false,
             loading: false,
         })
+        setTimeout(() => {
+            this.props.history.replace('/')
+        }, 500)
     }
 
     render() {
@@ -507,4 +511,4 @@ class FormContainer extends React.Component {
     }
 }
 
-export default FormContainer
+export default withRouter(FormContainer)

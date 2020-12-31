@@ -3,83 +3,104 @@ import Event from '../../components/Event/EventListItem'
 import NavigationPanel from '../../components/Navigation/NavigationPanel'
 import { getElementWidth } from '../utils/utils'
 import classes from './EventListContainer.module.css'
-
+import NoEvents from '../../components/NoEvents/NoEvents'
+import { instanceFirebase } from '../../axios/axios'
 class EventListContainer extends React.Component {
     state = {
         listPosition: 0,
         listItemWidth: 0,
         itemsInRow: 4,
-        events: [...this.props.events],
+        listMovement: 0,
+        events: null,
     }
 
     nextItemHandler = () => {
+        console.log(this.state)
         if (
             this.state.listPosition +
                 (this.state.events.length - this.state.itemsInRow) >
             0
         ) {
             const position = this.state.listPosition - 1
-            this.setState({ listPosition: position})
+            this.setState({
+                listPosition: position,
+                listMovement: position * this.state.listItemWidth,
+            })
         }
     }
     prevItemHandler = () => {
         if (this.state.listPosition) {
             const position = this.state.listPosition + 1
-            this.setState({ listPosition: position })
+            this.setState({
+                listPosition: position,
+                listMovement: position * this.state.listItemWidth,
+            })
         }
     }
 
     updateSize = () => {
-        if (window.innerWidth > 991) {
+        if (window.innerWidth > 991 && this.state.events) {
             const element = document.querySelector(`.${classes.List} li`)
             const fullElementWidth = getElementWidth(element)
             this.setState({ listItemWidth: fullElementWidth })
         }
     }
 
+    getEventsFromServer = () => {
+        instanceFirebase
+            .get('/events.json')
+            .then((res) => {
+                const data = []
+                for (let key in res.data) {
+                    data.push(res.data[key])
+                }
+                this.setState({ events: data })
+                this.updateSize()
+            })
+            .catch((err) => console.log(err))
+    }
+
     componentDidMount() {
-        this.updateSize()
+        this.getEventsFromServer()
         window.addEventListener('resize', () => {
             this.updateSize()
         })
+        console.log('component mounted')
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateSize)
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.events.length !== this.props.events.length) {
-            this.setState({
-                events: [...this.props.events],
-            })
-        }
-    }
-
     render() {
-        return (
-            <div className={classes.Component}>
-                <div className={classes.ListContainer}>
-                    <ul
-                        className={classes.List}
-                        style={{
-                            transform: `translateX(${
-                                this.state.listPosition *
-                                this.state.listItemWidth
-                            }px)`,
-                        }}
-                    >
-                        {this.state.events.map((event) => (
-                            <Event key={event.id + Math.random()} {...event} />
-                        ))}
-                    </ul>
+        const moveList = this.state.listPosition * this.state.listItemWidth
+        let events = <NoEvents />
+        if (this.state.events) {
+            events = (
+                <div className={classes.Component}>
+                    <div className={classes.ListContainer}>
+                        <ul
+                            className={classes.List}
+                            style={{
+                                transform: `translateX(${this.state.listMovement}px)`,
+                            }}
+                        >
+                            {this.state.events.map((event) => (
+                                <Event
+                                    key={event.id + Math.random()}
+                                    {...event}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                    <NavigationPanel
+                        onNextClick={this.nextItemHandler}
+                        onPrevClick={this.prevItemHandler}
+                    />
                 </div>
-                <NavigationPanel
-                    onNextClick={this.nextItemHandler}
-                    onPrevClick={this.prevItemHandler}
-                />
-            </div>
-        )
+            )
+        }
+        return events
     }
 }
 
