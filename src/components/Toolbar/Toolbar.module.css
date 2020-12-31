@@ -2,15 +2,43 @@
     background-color: rgb(5, 5, 19);
     color: #fff;
     padding: 20px;
-  
 }
 
 .Container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-   justify-content: space-between;
-   width: 100%;
-   max-width: 960px;
-   margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.Container ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    width: 30vw;
+}
+
+.Container ul li {
+    margin-right: 10px;
+}
+
+.Container ul li:nth-last-child() {
+    margin-right: 0;
+}
+
+.Container ul a {
+    color: #eaeaea;
+    text-decoration: none;
+}
+
+.Container ul a:hover,
+.Container ul a:active,
+.Container ul a.active {
+    color: #b5b5b5;
+    text-decoration: underline;
 }
