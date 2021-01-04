@@ -71,7 +71,6 @@ class EventListContainer extends React.Component {
     }
 
     render() {
-        const moveList = this.state.listPosition * this.state.listItemWidth
         let events = <NoEvents />
         if (this.state.events) {
             events = (
@@ -84,10 +83,7 @@ class EventListContainer extends React.Component {
                             }}
                         >
                             {this.state.events.map((event) => (
-                                <Event
-                                    key={event.id + Math.random()}
-                                    {...event}
-                                />
+                                <Event key={event.id} {...event} />
                             ))}
                         </ul>
                     </div>
