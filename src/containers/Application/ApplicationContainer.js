@@ -24,7 +24,6 @@ class App extends React.Component {
         instanceFirebase
             .post('/events.json', evtArray)
             .then((res) => {
-                console.log(res)
                 resetFormHandler()
             })
             .catch((err) => console.error('Oh my god, error! ', err))

@@ -12,8 +12,11 @@ export default class Image extends React.Component {
     }
 
     onImageLoadHandler = (e) => {
+        console.log(e)
+        console.log('hej hej hej')
         this.setState({ loaded: true })
     }
+    onImageLoadErrorHandler = (e) => {}
 
     closeModal = () => {
         this.setState({ modalOpen: false })
@@ -39,7 +42,7 @@ export default class Image extends React.Component {
                         <img
                             src={previewUrl}
                             alt={tags}
-                            onLoad={() => this.onImageLoadHandler()}
+                            onLoad={this.onImageLoadHandler}
                             onClick={this.openModal}
                         />
                     </div>

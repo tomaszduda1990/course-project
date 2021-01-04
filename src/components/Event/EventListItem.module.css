@@ -16,6 +16,14 @@
     overflow: hidden;
 }
 
+.ImgContainer img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .ImgContainer a {
     display: block;
     background: #000;

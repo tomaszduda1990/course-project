@@ -15,7 +15,6 @@ class EventListContainer extends React.Component {
     }
 
     nextItemHandler = () => {
-        console.log(this.state)
         if (
             this.state.listPosition +
                 (this.state.events.length - this.state.itemsInRow) >
@@ -65,7 +64,6 @@ class EventListContainer extends React.Component {
         window.addEventListener('resize', () => {
             this.updateSize()
         })
-        console.log('component mounted')
     }
 
     componentWillUnmount() {
