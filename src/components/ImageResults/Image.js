@@ -12,11 +12,8 @@ export default class Image extends React.Component {
     }
 
     onImageLoadHandler = (e) => {
-        console.log(e)
-        console.log('hej hej hej')
         this.setState({ loaded: true })
     }
-    onImageLoadErrorHandler = (e) => {}
 
     closeModal = () => {
         this.setState({ modalOpen: false })

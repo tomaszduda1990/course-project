@@ -60,7 +60,6 @@ class EventListContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log('component remounted')
         this.getEventsFromServer()
         window.addEventListener('resize', () => {
             this.updateSize()
@@ -84,10 +83,7 @@ class EventListContainer extends React.Component {
                             }}
                         >
                             {this.state.events.map((event) => (
-                                <Event
-                                    key={event.id + Math.random()}
-                                    {...event}
-                                />
+                                <Event key={event.id} {...event} />
                             ))}
                         </ul>
                     </div>

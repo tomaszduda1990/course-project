@@ -3,8 +3,11 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import EventIcon from '@material-ui/icons/Event'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import classes from './EventListItem.module.css'
-import Image from './Image'
 import axios from 'axios'
+
+const Image = React.memo(function Image({ src }) {
+    return <img src={src} alt="event image" />
+})
 
 class EventListItem extends React.Component {
     state = {
@@ -12,7 +15,6 @@ class EventListItem extends React.Component {
         imgUrl: 'https://dummyimage.com/200x250/',
     }
     componentDidMount() {
-        console.log(this.props.image)
         axios(this.props.image.webformatURL)
             .then((res) => {
                 if (res.status === 200) {
@@ -32,7 +34,7 @@ class EventListItem extends React.Component {
             <li className={classes.EventCard}>
                 <div className={classes.ImgContainer}>
                     {this.state.loadImg ? (
-                        <Image src={this.state.imgUrl} />
+                        <img src={this.state.imgUrl} alt="event image" />
                     ) : (
                         <CircularProgress />
                     )}
