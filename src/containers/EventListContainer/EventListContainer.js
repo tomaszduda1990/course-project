@@ -60,6 +60,7 @@ class EventListContainer extends React.Component {
     }
 
     componentDidMount() {
+        console.log('component remounted')
         this.getEventsFromServer()
         window.addEventListener('resize', () => {
             this.updateSize()
@@ -71,7 +72,6 @@ class EventListContainer extends React.Component {
     }
 
     render() {
-        const moveList = this.state.listPosition * this.state.listItemWidth
         let events = <NoEvents />
         if (this.state.events) {
             events = (
