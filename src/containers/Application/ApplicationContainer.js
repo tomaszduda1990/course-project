@@ -5,6 +5,7 @@ import EventListContainer from '../EventListContainer/EventListContainer'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import { instanceFirebase } from '../../axios/axios'
 import { Route, Switch } from 'react-router-dom'
+import { TimerSharp } from '@material-ui/icons'
 
 class App extends React.Component {
     state = {
@@ -12,15 +13,10 @@ class App extends React.Component {
     }
     onFormSubmit = (evtArray, resetFormHandler) => {
         evtArray.id = new Date().getTime() + Math.random()
-
-        this.setState((prevState) => {
-            const copiedEvents = [...prevState.events]
-            copiedEvents.push(evtArray)
-            localStorage.setItem('events', JSON.stringify(copiedEvents))
-            return {
-                events: [...copiedEvents],
-            }
+        this.setState({
+            events: this.state.events.concat(evtArray),
         })
+        localStorage.setItem('events', JSON.stringify(this.state.events))
         instanceFirebase
             .post('/events.json', evtArray)
             .then((res) => {
