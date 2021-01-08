@@ -5,10 +5,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import classes from './EventListItem.module.css'
 import axios from 'axios'
 
-const Image = React.memo(function Image({ src }) {
-    return <img src={src} alt="event image" />
-})
-
 class EventListItem extends React.Component {
     state = {
         loadImg: false,
