@@ -4,20 +4,21 @@ import NavigationPanel from '../../components/Navigation/NavigationPanel'
 import { getElementWidth } from '../utils/utils'
 import classes from './EventListContainer.module.css'
 import NoEvents from '../../components/NoEvents/NoEvents'
-import { instanceFirebase } from '../../axios/axios'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { connect } from 'react-redux'
+import { get_data } from '../../store/actions/eventsActions'
 class EventListContainer extends React.Component {
     state = {
         listPosition: 0,
         listItemWidth: 0,
         itemsInRow: 4,
         listMovement: 0,
-        events: null,
     }
 
     nextItemHandler = () => {
         if (
             this.state.listPosition +
-                (this.state.events.length - this.state.itemsInRow) >
+                (this.props.events.length - this.state.itemsInRow) >
             0
         ) {
             const position = this.state.listPosition - 1
@@ -38,32 +39,23 @@ class EventListContainer extends React.Component {
     }
 
     updateSize = () => {
-        if (window.innerWidth > 991 && this.state.events) {
+        if (window.innerWidth > 991 && this.props.events) {
             const element = document.querySelector(`.${classes.List} li`)
             const fullElementWidth = getElementWidth(element)
             this.setState({ listItemWidth: fullElementWidth })
         }
     }
 
-    getEventsFromServer = () => {
-        instanceFirebase
-            .get('/events.json')
-            .then((res) => {
-                const data = []
-                for (let key in res.data) {
-                    data.push(res.data[key])
-                }
-                this.setState({ events: data })
-                this.updateSize()
-            })
-            .catch((err) => console.log(err))
-    }
-
     componentDidMount() {
-        this.getEventsFromServer()
+        this.props.getData()
         window.addEventListener('resize', () => {
             this.updateSize()
         })
+    }
+    componentDidUpdate(prevProps) {
+        if (!prevProps.events.length && this.props.events.length) {
+            this.updateSize()
+        }
     }
 
     componentWillUnmount() {
@@ -72,7 +64,7 @@ class EventListContainer extends React.Component {
 
     render() {
         let events = <NoEvents />
-        if (this.state.events) {
+        if (this.props.events) {
             events = (
                 <div className={classes.Component}>
                     <div className={classes.ListContainer}>
@@ -82,7 +74,7 @@ class EventListContainer extends React.Component {
                                 transform: `translateX(${this.state.listMovement}px)`,
                             }}
                         >
-                            {this.state.events.map((event) => (
+                            {this.props.events.map((event) => (
                                 <Event key={event.id} {...event} />
                             ))}
                         </ul>
@@ -94,8 +86,22 @@ class EventListContainer extends React.Component {
                 </div>
             )
         }
-        return events
+        return (
+            <div>
+                {this.props.loadingEvents ? <CircularProgress /> : events}
+            </div>
+        )
+    }
+}
+const mapStateToProps = (store) => {
+    return {
+        events: store.events,
     }
 }
 
-export default EventListContainer
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getData: () => dispatch(get_data()),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EventListContainer)
