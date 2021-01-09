@@ -5,6 +5,8 @@ import { getElementWidth } from '../utils/utils'
 import classes from './EventListContainer.module.css'
 import NoEvents from '../../components/NoEvents/NoEvents'
 import { instanceFirebase } from '../../axios/axios'
+import { connect } from 'react-redux'
+import { get_data } from '../../store/actions/eventsActions'
 class EventListContainer extends React.Component {
     state = {
         listPosition: 0,
@@ -57,6 +59,7 @@ class EventListContainer extends React.Component {
                 this.updateSize()
             })
             .catch((err) => console.log(err))
+        this.props.getData()
     }
 
     componentDidMount() {
@@ -71,6 +74,7 @@ class EventListContainer extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         let events = <NoEvents />
         if (this.state.events) {
             events = (
@@ -97,5 +101,15 @@ class EventListContainer extends React.Component {
         return events
     }
 }
+const mapStateToProps = (store) => {
+    return {
+        events: store.events,
+    }
+}
 
-export default EventListContainer
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getData: () => dispatch(get_data()),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EventListContainer)

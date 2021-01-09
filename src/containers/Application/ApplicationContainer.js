@@ -5,7 +5,7 @@ import EventListContainer from '../EventListContainer/EventListContainer'
 import HeroImage from '../../components/HeroImage/HeroImage'
 import { instanceFirebase } from '../../axios/axios'
 import { Route, Switch } from 'react-router-dom'
-import { TimerSharp } from '@material-ui/icons'
+import { connect } from 'react-redux'
 
 class App extends React.Component {
     state = {
@@ -23,19 +23,6 @@ class App extends React.Component {
                 resetFormHandler()
             })
             .catch((err) => console.error('Oh my god, error! ', err))
-    }
-
-    getEventsFromServer = () => {
-        instanceFirebase
-            .get('/events.json')
-            .then((res) => {
-                const data = []
-                for (let key in res.data) {
-                    data.push(res.data[key])
-                }
-                this.setState({ events: data })
-            })
-            .catch((err) => console.log(err))
     }
 
     render() {
@@ -59,5 +46,9 @@ class App extends React.Component {
         )
     }
 }
-
-export default App
+const mapStateToProps = (state) => {
+    return {
+        events: state.events,
+    }
+}
+export default connect(mapStateToProps)(App)
