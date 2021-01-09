@@ -8,32 +8,30 @@ import axios from 'axios'
 class EventListItem extends React.Component {
     state = {
         loadImg: false,
-        imgUrl: 'https://dummyimage.com/200x250/',
     }
-    componentDidMount() {
-        axios(this.props.image.webformatURL)
-            .then((res) => {
-                if (res.status === 200) {
-                    this.setState({
-                        loadImg: true,
-                        imgUrl: this.props.image.webformatURL,
-                    })
-                }
-            })
-            .catch((err) => {
-                this.setState({ loadImg: true })
-            })
+
+    onImgError = (e) => {
+        e.target.setAttribute('src', 'https://dummyimage.com/200x250/')
+    }
+
+    onImgLoad = () => {
+        console.log('elo')
+        this.setState({ loadImg: true })
     }
 
     render() {
         return (
-            <li className={classes.EventCard}>
+            <li
+                className={classes.EventCard}
+                style={{ opacity: this.state.loadImg ? '1' : '0' }}
+            >
                 <div className={classes.ImgContainer}>
-                    {this.state.loadImg ? (
-                        <img src={this.state.imgUrl} alt="event image" />
-                    ) : (
-                        <CircularProgress />
-                    )}
+                    <img
+                        src={this.props.image.webformatURL}
+                        onError={this.onImgError}
+                        onLoad={this.onImgLoad}
+                        alt="event image"
+                    />
                     <a href="#"></a>
                     <p className={classes.EvtDescContainer}>
                         <span className={classes.EvtDesc}>
@@ -49,9 +47,10 @@ class EventListItem extends React.Component {
                 </div>
                 <h2>
                     <a href="#" alt={this.props.name + ' eventListItem title'}>
-                        {this.props.name}
+                        {this.props.name} {this.state.loadImg}
                     </a>
                 </h2>
+                {!this.state.loadImg ? <CircularProgress /> : null}
             </li>
         )
     }
