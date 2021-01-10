@@ -48,6 +48,7 @@ class EventListContainer extends React.Component {
 
     componentDidMount() {
         this.props.getData()
+        this.updateSize()
         window.addEventListener('resize', () => {
             this.updateSize()
         })
@@ -59,6 +60,7 @@ class EventListContainer extends React.Component {
     }
 
     componentWillUnmount() {
+        console.log('BYE BYE EVENT LIST CONTAINER')
         window.removeEventListener('resize', this.updateSize)
     }
 
