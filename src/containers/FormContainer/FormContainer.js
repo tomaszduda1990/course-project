@@ -7,6 +7,7 @@ import { validateTextField, validateDateField } from '../utils/utils'
 import { instanceFirebase } from '../../axios/axios'
 import classes from './FormContainer.module.css'
 import { withRouter } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 class FormContainer extends React.Component {
     state = {
@@ -287,8 +288,8 @@ class FormContainer extends React.Component {
         this.setState({ page: val })
     }
 
-    onFormSubmit = (evtArray, resetFormHandler) => {
-        evtArray.id = new Date().getTime() + Math.random()
+    onFormSubmit = (evtArray) => {
+        evtArray.id = uuidv4()
         instanceFirebase
             .post('/events.json', evtArray)
             .then((res) => {
@@ -301,10 +302,6 @@ class FormContainer extends React.Component {
         setTimeout(() => {
             this.props.history.replace('/')
         }, 500)
-    }
-
-    componentWillUnmount() {
-        console.log('BYE BYE FORM')
     }
 
     render() {
