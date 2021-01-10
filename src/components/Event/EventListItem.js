@@ -3,8 +3,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import EventIcon from '@material-ui/icons/Event'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import classes from './EventListItem.module.css'
-import axios from 'axios'
-
+import { NavLink } from 'react-router-dom'
 class EventListItem extends React.Component {
     state = {
         loadImg: false,
@@ -17,8 +16,8 @@ class EventListItem extends React.Component {
     onImgLoad = () => {
         this.setState({ loadImg: true })
     }
-
     render() {
+        console.log(this.props.id)
         return (
             <li
                 className={classes.EventCard}
@@ -31,7 +30,11 @@ class EventListItem extends React.Component {
                         onLoad={this.onImgLoad}
                         alt="event image"
                     />
-                    <a href="#"></a>
+                    <NavLink
+                        to={{
+                            pathname: 'events/' + this.props.id,
+                        }}
+                    ></NavLink>
                     <p className={classes.EvtDescContainer}>
                         <span className={classes.EvtDesc}>
                             <EventIcon /> {this.props.date}

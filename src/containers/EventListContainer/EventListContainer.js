@@ -60,7 +60,6 @@ class EventListContainer extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log('BYE BYE EVENT LIST CONTAINER')
         window.removeEventListener('resize', this.updateSize)
     }
 
