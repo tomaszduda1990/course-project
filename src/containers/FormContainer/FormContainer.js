@@ -4,6 +4,7 @@ import FormPage from '../../components/FormPage/FormPage'
 import Search from '../../components/Search/Search'
 import Summary from '../../components/FormPage/Summary/Summary'
 import { validateTextField, validateDateField } from '../utils/utils'
+import { instanceFirebase } from '../../axios/axios'
 import classes from './FormContainer.module.css'
 import { withRouter } from 'react-router-dom'
 
@@ -286,49 +287,24 @@ class FormContainer extends React.Component {
         this.setState({ page: val })
     }
 
+    onFormSubmit = (evtArray, resetFormHandler) => {
+        evtArray.id = new Date().getTime() + Math.random()
+        instanceFirebase
+            .post('/events.json', evtArray)
+            .then((res) => {
+                this.resetFormHandler()
+            })
+            .catch((err) => console.error('Oh my god, error! ', err))
+    }
+
     resetFormHandler = () => {
-        this.setState({
-            page: 1,
-            details: {
-                name: '',
-                price: 0,
-                description: '',
-                date: '',
-                time: '',
-                image: {},
-            },
-            validation: {
-                name: {
-                    isValid: false,
-                    touched: false,
-                },
-                price: {
-                    isValid: false,
-                    touched: false,
-                },
-                description: {
-                    isValid: false,
-                    touched: false,
-                },
-                date: {
-                    isValid: false,
-                    touched: false,
-                },
-                time: {
-                    isValid: false,
-                    touched: false,
-                },
-                image: {
-                    isValid: false,
-                    touched: false,
-                },
-            },
-            valid: false,
-            loading: false,
-        })
         setTimeout(() => {
             this.props.history.replace('/')
         }, 500)
+    }
+
+    componentWillUnmount() {
+        console.log('BYE BYE FORM')
     }
 
     render() {
@@ -494,7 +470,7 @@ class FormContainer extends React.Component {
                         prevPage={this.prevPageHandler}
                         onSubmit={() => {
                             this.setState({ loading: true })
-                            this.props.formSubmission(
+                            this.onFormSubmit(
                                 this.state.details,
                                 this.resetFormHandler
                             )

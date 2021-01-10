@@ -15,7 +15,6 @@ class EventListItem extends React.Component {
     }
 
     onImgLoad = () => {
-        console.log('elo')
         this.setState({ loadImg: true })
     }
 
