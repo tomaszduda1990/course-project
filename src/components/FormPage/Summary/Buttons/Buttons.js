@@ -12,6 +12,7 @@ const buttons = (props) => {
                     variant="contained"
                     color="primary"
                     onClick={props.onSubmit}
+                    disabled={props.loading}
                 >
                     {props.loading ? <CircularProgress /> : 'Submit'}
                 </Button>
