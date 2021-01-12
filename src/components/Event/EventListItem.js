@@ -17,7 +17,6 @@ class EventListItem extends React.Component {
         this.setState({ loadImg: true })
     }
     render() {
-        console.log(this.props.id)
         return (
             <li
                 className={classes.EventCard}

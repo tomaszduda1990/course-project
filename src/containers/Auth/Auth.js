@@ -18,7 +18,6 @@ class Auth extends React.Component {
         this.setState({ [key]: e.target.value })
     }
     render() {
-        console.log(this.props)
         const loggedInSuccessfully = this.props.userId && this.props.token
         let element = (
             <div>

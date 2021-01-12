@@ -47,7 +47,8 @@ class EventListContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getData()
+        console.log(this.props.tk)
+        this.props.getData(this.props.tk)
         this.updateSize()
         window.addEventListener('resize', () => {
             this.updateSize()
@@ -97,12 +98,13 @@ class EventListContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         events: store.data.events,
+        tk: store.auth.token,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getData: () => dispatch(get_data()),
+        getData: (token) => dispatch(get_data(token)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EventListContainer)
