@@ -16,7 +16,7 @@ const App = () => (
             <Switch>
                 <Route path="/new-event" component={FormContainer} />
                 <Route path="/sign-in" component={Signin} />
-                <Route path="/auth" component={Auth} />
+                <Route path="/create-account" component={Auth} />
                 <Route path="/events/:id" exact component={Summary} />
                 <Route path="/" exact component={EventListContainer} />
                 <Route path="/" component={NotFound} />

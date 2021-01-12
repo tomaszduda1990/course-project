@@ -16,7 +16,14 @@
     padding: 6px 10px;
     cursor: pointer;
 }
+.Link {
+    text-align: center;
+}
 
+.Link a {
+    text-decoration: none;
+    color: yellowgreen;
+}
 .Form {
     max-width: 450px;
     width: 80vw;

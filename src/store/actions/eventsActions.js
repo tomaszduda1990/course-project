@@ -8,10 +8,10 @@ const eventsAction = (events, loadingEvents) => {
     }
 }
 
-export const get_data = () => {
+export const get_data = (token) => {
     return (dispatch) => {
         instanceFirebase
-            .get('/events.json')
+            .get('/events.json?auth=' + token)
             .then((res) => {
                 const data = []
                 for (let key in res.data) {

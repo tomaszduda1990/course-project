@@ -2,6 +2,7 @@ import React from 'react'
 import classes from './Auth.module.css'
 import { connect } from 'react-redux'
 import { auth } from '../../store/actions/auth'
+import { NavLink } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 class Auth extends React.Component {
     state = {
@@ -53,6 +54,14 @@ class Auth extends React.Component {
                         Log in
                     </button>
                 </form>
+                <div className={classes.Link}>
+                    <hr />
+                    <p>OR</p>
+                    <hr />
+                    <NavLink exact to="/create-account">
+                        Create Account
+                    </NavLink>
+                </div>
             </div>
         )
 
