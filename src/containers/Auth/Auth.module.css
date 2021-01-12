@@ -1,0 +1,32 @@
+.Label {
+    display: block;
+}
+
+.Label input {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+}
+.Button {
+    display: block;
+    margin: 0 auto;
+    background: #eaeaea;
+    color: #333;
+    border: 1px solid #333;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.Form {
+    max-width: 450px;
+    width: 80vw;
+    margin: 0 auto;
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #333;
+    box-sizing: border-box;
+}
+
+.Form * {
+    box-sizing: border-box;
+}

@@ -96,7 +96,7 @@ class EventListContainer extends React.Component {
 }
 const mapStateToProps = (store) => {
     return {
-        events: store.events,
+        events: store.data.events,
     }
 }
 
