@@ -83,7 +83,7 @@ class Summary extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    events: state.events,
+    events: state.data.events,
 })
 
 const mapDispatchToProps = (dispatch) => ({

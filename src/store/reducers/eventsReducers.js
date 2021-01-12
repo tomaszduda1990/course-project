@@ -5,10 +5,6 @@ const initialStore = {
 }
 const reducer = (store = initialStore, actions) => {
     switch (actions.type) {
-        case actionTypes.FORM_SUBMISSION:
-            return {
-                ...store,
-            }
         case actionTypes.GET_DATA:
             return {
                 ...store,

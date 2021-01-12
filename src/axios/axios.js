@@ -14,3 +14,8 @@ export const instancePixabay = axios.create({
         safesearch: true,
     },
 })
+
+export const instanceFirebaseAuth = axios.create({
+    baseURL:
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAIrzgwBNu8YFM7ixD2DqJOrurGRWs31UA',
+})
