@@ -6,7 +6,8 @@ import Summary from '../../components/FormPage/Summary/Summary'
 import { validateTextField, validateDateField } from '../utils/utils'
 import { instanceFirebase } from '../../axios/axios'
 import classes from './FormContainer.module.css'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 
 class FormContainer extends React.Component {
@@ -288,10 +289,11 @@ class FormContainer extends React.Component {
         this.setState({ page: val })
     }
 
-    onFormSubmit = (evtArray) => {
+    onFormSubmit = (evtArray, token, userId) => {
         evtArray.id = uuidv4()
+        evtArray.userId = userId
         instanceFirebase
-            .post('/events.json', evtArray)
+            .post('/events.json?auth?' + token, evtArray)
             .then((res) => {
                 this.resetFormHandler()
             })
@@ -305,6 +307,8 @@ class FormContainer extends React.Component {
     }
 
     render() {
+        const isAuth = this.props.token && this.props.userId
+
         const nameError =
             !this.state.validation.name.isValid &&
             this.state.validation.name.touched
@@ -469,7 +473,8 @@ class FormContainer extends React.Component {
                             this.setState({ loading: true })
                             this.onFormSubmit(
                                 this.state.details,
-                                this.resetFormHandler
+                                this.props.token,
+                                this.props.userId
                             )
                         }}
                     />
@@ -480,8 +485,16 @@ class FormContainer extends React.Component {
                 break
         }
 
-        return <form className={classes.FormContainer}>{renderedElement}</form>
+        return (
+            <form className={classes.FormContainer}>
+                {!isAuth ? <Redirect to="/" /> : null}
+                {renderedElement}
+            </form>
+        )
     }
 }
-
-export default withRouter(FormContainer)
+const mapStateToProps = (state) => ({
+    token: state.auth.token,
+    userId: state.auth.userId,
+})
+export default connect(mapStateToProps)(withRouter(FormContainer))

@@ -11,13 +11,43 @@ export const authFail = (error) => {
     }
 }
 export const authSuccess = (authData) => {
+    const loginData = {
+        idToken: authData.idToken,
+        localId: authData.localId,
+    }
+
+    sessionStorage.setItem('loginData', JSON.stringify(loginData))
+    console.log('auth successs')
+    console.log(authData, loginData)
     return {
         type: AUTH_SUCCESS,
         data: authData,
     }
 }
 
+export const authCheck = () => {
+    const loginData = JSON.parse(sessionStorage.getItem('loginData'))
+    const expiresIn = new Date(sessionStorage.getItem('expiration'))
+    return (dispatch) => {
+        if (loginData) {
+            if (new Date() > expiresIn) {
+                dispatch(logOut())
+                return
+            }
+            sessionStorage.setItem(
+                'expiration',
+                new Date(expiresIn.getTime() - new Date().getTime())
+            )
+            dispatch(authSuccess(loginData))
+        } else {
+            dispatch(logOut())
+        }
+    }
+}
+
 export const logOut = () => {
+    sessionStorage.removeItem('loginData')
+    sessionStorage.removeItem('expiration')
     return {
         type: LOGOUT,
     }
@@ -52,6 +82,10 @@ export const auth = (email, password, type) => {
         axios
             .post(authType[type], authData)
             .then((res) => {
+                sessionStorage.setItem(
+                    'expiration',
+                    new Date(new Date().getTime() + res.data.expiresIn * 1000)
+                )
                 dispatch(authSuccess(res.data))
                 dispatch(checkAuthTimeut(res.data.expiresIn))
             })

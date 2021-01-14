@@ -23,6 +23,7 @@ const authReducer = (state = initialState, actions) => {
                 token: null,
             }
         case AUTH_SUCCESS:
+            console.log(actions.data)
             const { localId, idToken } = actions.data
             return {
                 ...state,

@@ -11,11 +11,6 @@ const Toolbar = (props) => {
                     Log in
                 </NavLink>
             </li>
-            {/* <li>
-                <NavLink exact activeClassName={classes.active} to="/auth">
-                    Create Account
-                </NavLink>
-            </li> */}
         </>
     )
 

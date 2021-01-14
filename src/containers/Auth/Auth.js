@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { auth } from '../../store/actions/auth'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { NavLink } from 'react-router-dom'
 class Auth extends React.Component {
     state = {
         email: null,
@@ -19,6 +20,7 @@ class Auth extends React.Component {
     }
     render() {
         const loggedInSuccessfully = this.props.userId && this.props.token
+
         let element = (
             <div>
                 {loggedInSuccessfully ? (
@@ -70,6 +72,22 @@ class Auth extends React.Component {
 
         if (this.props.loading) {
             element = <CircularProgress />
+        }
+
+        if (this.props.error) {
+            element = (
+                <h3
+                    style={{
+                        color: 'salmon',
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        fontSize: '40px',
+                    }}
+                >
+                    {this.props.error.message}
+                    <p>Please refresh the site and try again!</p>
+                </h3>
+            )
         }
         return element
     }
